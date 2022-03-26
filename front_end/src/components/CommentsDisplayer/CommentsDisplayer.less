@@ -1,0 +1,109 @@
+div.asideWrapper{
+    position: fixed;
+    left: 73%;
+    height: 35vw;
+    width: 27%;
+    div.asideBtnWrapper{
+        margin-top: auto;
+        margin-bottom: auto;
+        border-top-left-radius: 0.2vw;
+        border-bottom-left-radius: 0.2vw;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right-width: 0;
+        border-style: solid;
+        border-color: black;
+        width: 8%;
+        padding: 0;
+        height: 2vw;
+        div.asideBtnWrapper2{
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            svg{
+                padding: 0;
+                height: 100%;
+            }
+        }
+    }
+
+    aside {
+        margin-left: 0;
+        padding-left: 0;
+        padding: 0;
+        ::-webkit-scrollbar{
+            height: 50%;
+            width: 0.7vw;
+        }
+        ::-webkit-scrollbar-thumb {
+            border-radius: 0.15vw;
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.3);
+            scrollbar-arrow-color:red;
+        }
+        ul.commentsList{
+            height: 35vw;
+            border-style: solid;
+            border-radius: 0.3vw;
+            overflow: hidden;
+            overflow-y:auto;
+            border-width: 0.15vw;
+            padding: 0;
+            li.comment{
+                margin-bottom: 1vw;
+                margin-top: 1vw;
+                overflow: hidden;
+                background-color: rgba(253,237,214, 0.4);
+                div.commentorInfo{
+                    height: 2vw;
+                    overflow: hidden;
+                    div.commentorPic{
+                        overflow: hidden;
+                        border-width: 0.1vw;
+                        height: 2vw;
+                        img{
+                            height: 90%;
+                            
+                        }
+                    }
+
+                    div.commentorName{
+                        text-align: center;
+                        height: 2vw;
+                        line-height: 2vw;
+                        font-family: Arial, Helvetica, sans-serif;
+                        font-weight: bold;
+                    }
+
+                    div.commentorDate{
+                        text-align: center;
+                        height: 100%;
+                        line-height: 2vw;
+                        font-family: Arial, Helvetica, sans-serif;
+                        font-weight: bold;
+                    }
+                }
+                
+                div.commentBody{
+                    text-align: justify;
+                    width: 90%;
+                    margin-left: 5%;
+                    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                }
+            }
+        }
+    }
+}
+
+div.asideBtnWrapperNondisplay{
+    position: fixed;
+    left: 96%;
+    top: 50%;
+    width: 4vw;
+    div.asideBtnWrapper2{
+        border-style: solid;
+        border-color: black;
+        border-width: 0.15vw;
+        border-radius: 2vw;
+    }
+}

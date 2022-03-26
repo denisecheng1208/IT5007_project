@@ -29,7 +29,7 @@ export default class Header extends Component {
         </div>
 
         <div className='offset-2 col-3 search headerCompo'>
-          <input placeholder="  Search now!"></input> &nbsp;
+          <input placeholder="Search now!"></input> &nbsp;
           <button className="searchBtn btn btn-default btn-lg">
             <Search color="black" size={25}/>
           </button>
