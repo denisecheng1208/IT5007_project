@@ -1,0 +1,43 @@
+div.contextContainer {
+  background-color: white;
+}
+div.contextContainer div.addNewEditor button.newTab {
+  background-color: #13aa52;
+  color: white;
+  font-weight: bold;
+}
+div.contextContainer div.addNewEditor button.newTab:hover {
+  border-radius: 1vw;
+}
+div.contextContainer div.addNewEditor button.submit {
+  background-color: white;
+  color: #13aa52;
+  font-weight: bold;
+  border-style: solid;
+  border-color: #13aa52;
+  border-width: 0.15vw;
+}
+div.contextContainer div.addNewEditor button.submit:hover {
+  border-radius: 1vw;
+}
+div.contextContainer div.editorWrapper {
+  margin-bottom: 3vw;
+  justify-content: space-around;
+}
+div.contextContainer div.editorWrapper div.btnWrapper {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+div.contextContainer div.editorWrapper div.btnWrapper button.removeEditor {
+  margin-top: 1vw;
+  background-color: orange;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 2vw;
+  width: 70%;
+}
+div.contextContainer div.editorWrapper div.btnWrapper button.removeEditor:hover {
+  border-radius: 1vw;
+}
