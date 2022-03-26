@@ -1,0 +1,59 @@
+div.header {
+  color: #5d6c74;
+  background-color: white;
+  border-style: solid;
+  border-bottom-width: 0.15vw;
+  border-top-width: 0;
+  border-color: rgba(0, 0, 0, 0.3);
+  height: 12%;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 5vw;
+}
+div.header div.headerCompo {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+div.header div.headerCompo button {
+  font-size: 1.1vw;
+  color: #5d6c74;
+  outline: none !important;
+  box-shadow: none !important;
+}
+div.header div.headerCompo button:hover {
+  color: black;
+  font-weight: bold;
+  border-style: solid;
+  border-color: black;
+}
+div.header div.search input {
+  font-size: 1.1vw;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+div.header div.search button.searchBtn:hover {
+  background-color: antiquewhite;
+}
+div.header div,
+div.header logo {
+  overflow: hidden;
+}
+div.header div div.imgWrapper,
+div.header logo div.imgWrapper {
+  overflow: hidden;
+}
+div.header div div.imgWrapper img,
+div.header logo div.imgWrapper img {
+  width: 60%;
+  height: 80%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+div.header div.logIn button.logInBtn {
+  background-color: #00ed64;
+  border-radius: 5%;
+  color: black;
+}
+div.header div.logIn button.logInBtn:hover {
+  border-style: solid;
+  border-color: black;
+}
