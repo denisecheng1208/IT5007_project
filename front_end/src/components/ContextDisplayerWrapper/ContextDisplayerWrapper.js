@@ -79,7 +79,7 @@ export default class ContextsDisplayerWrapper extends Component {
       return (
         <div className='col-12 row'>
           <div className='col-9 row'>
-            <ContextDispalyer displayComments={this.state.displayComments} context={this.state.markdown} changeDisplayState={(newState) => this.setState(newState)} />
+            <ContextDispalyer commentsOnDisplay={this.state.commentsOnDisplay} displayComments={this.state.displayComments} context={this.state.markdown} changeDisplayState={(newState) => this.setState(newState)} />
           </div>
           <div className='col-3 row'>
             <CommentsDisplayer commentsOnDisplay={this.state.commentsOnDisplay} comments={this.state.comments} displayComments={this.state.displayComments} changeDisplayState={(newState) => this.setState(newState)} />
