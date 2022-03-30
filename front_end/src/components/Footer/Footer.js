@@ -15,7 +15,7 @@ export default class Footer extends Component {
           <ul className="footerContact ">
             <h4>Contact us via: </h4>
             <li><span>Tel:</span>  8888 8888</li>
-            <li><span>Email:</span>  programForum@gmail.com</li>
+            <li><span>Email:</span>  TechForum@gmail.com</li>
             <li><span>Address:</span> No. 32, xxx Road, SG</li>
           </ul>
         </div>

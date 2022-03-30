@@ -23,7 +23,7 @@ export default class Header extends Component {
         <div className='col-1 listBtn headerCompo'>
           <a href='/displayBlog'>
             <button className='btn'>
-              Blog List
+              A Blog
             </button>
           </a>
         </div>
@@ -39,7 +39,7 @@ export default class Header extends Component {
         <div className='col-1 createBlogBtn headerCompo'>
           <a href='/edit'>
             <button className='btn'>
-              New Blog
+              Edit Blog
             </button>
           </a>
         </div>
