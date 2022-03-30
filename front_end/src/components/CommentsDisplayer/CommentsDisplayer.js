@@ -53,6 +53,5 @@ export default class CommentsDisplayer extends Component {
                 </div>
             )
         }
-
     }
 }

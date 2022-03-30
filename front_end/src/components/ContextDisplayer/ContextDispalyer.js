@@ -7,17 +7,17 @@ import Textarea from '@uiw/react-md-editor/lib/components/TextArea/Textarea'
 export default class ContextDispalyer extends Component {
     state = {
         userId: "",
-        displayAddCommentTab: true,
+        displayAddCommentTab: false,
         addCommentTabOnDisplay: 0,
     }
 
     onContextClick = (idx) => {
-        if(idx == this.props.commentsOnDisplay){
+        if (idx == this.props.commentsOnDisplay) {
             this.props.changeDisplayState({ displayComments: !this.props.displayComments })
-        }else{
-            this.props.changeDisplayState({ commentsOnDisplay: idx, displayComments: true})
+        } else {
+            this.props.changeDisplayState({ commentsOnDisplay: idx, displayComments: true })
         }
-        
+
     }
 
     addComments = (idx) => {
@@ -48,18 +48,18 @@ export default class ContextDispalyer extends Component {
                                         </div>
                                     </div>
                                     {
-                                        this.state.displayAddCommentTab && this.state.addCommentTabOnDisplay == idx? 
-                                           (<div className='addCommentTab row'>
-                                                <hr className = "offset-5 col-2"/>
+                                        this.state.displayAddCommentTab && this.state.addCommentTabOnDisplay == idx ?
+                                            (<div className='addCommentTab row'>
+                                                <hr className="offset-5 col-2" />
                                                 <textarea placeholder="Input your comments!" rows="5" type="text" className=' col-10'></textarea>
                                                 <div className="col-2">
                                                     <button className="btn submitCommentBtn">Submit</button>
                                                 </div>
-                                                
+
                                             </div>
-                                        ) : null
+                                            ) : null
                                     }
-                                    
+
                                 </div>
                             )
                         })

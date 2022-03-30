@@ -13,30 +13,58 @@ export default class Header extends Component {
         </div>
 
         <div className='col-1 home headerCompo'>
-          <button className='btn'>Home</button>
+          <a href='/'>
+            <button className='btn'>
+              Home
+            </button>
+          </a>
         </div>
 
         <div className='col-1 listBtn headerCompo'>
-          <button className='btn'>Blog List</button>
+          <a href='/displayBlog'>
+            <button className='btn'>
+              Blog List
+            </button>
+          </a>
         </div>
 
         <div className='col-1 accountBtn headerCompo'>
-          <button className='btn'>Account</button>
+          <a href='/account'>
+            <button className='btn'>
+              Account
+            </button>
+          </a>
         </div>
 
         <div className='col-1 createBlogBtn headerCompo'>
-          <button className='btn'>New Blog</button>
+          <a href='/edit'>
+            <button className='btn'>
+              New Blog
+            </button>
+          </a>
         </div>
 
-        <div className='offset-2 col-3 search headerCompo'>
+        <div className='offset-1 col-3 search headerCompo'>
           <input placeholder="Search now!"></input> &nbsp;
           <button className="searchBtn btn btn-default btn-lg">
-            <Search color="black" size={25}/>
+            <Search color="black" size={25} />
           </button>
         </div>
 
         <div className='col-1 logIn headerCompo'>
-          <button className='btn logInBtn btn-lg'>Sign in</button>
+          <a href='/login'>
+            <button className='btn logInBtn btn-lg'>
+              Sign in
+            </button>
+          </a>
+        </div>
+
+        <div className='col-1 signUp headerCompo'>
+          <a href='/signup'>
+            <button className='btn signUpBtn btn-lg'>
+              Sign up
+            </button>
+          </a>
         </div>
       </div>
     )

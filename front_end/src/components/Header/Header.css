@@ -57,3 +57,13 @@ div.header div.logIn button.logInBtn:hover {
   border-style: solid;
   border-color: black;
 }
+div.header div.signUp button.signUpBtn {
+  border-style: solid;
+  border-color: #00ed64;
+  border-width: 0.15vw;
+  border-radius: 5%;
+  color: black;
+}
+div.header div.signUp button.signUpBtn:hover {
+  border-style: solid;
+}

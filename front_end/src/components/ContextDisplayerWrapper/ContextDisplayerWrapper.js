@@ -4,7 +4,7 @@ import ContextDispalyer from '../ContextDisplayer/ContextDispalyer'
 
 export default class ContextsDisplayerWrapper extends Component {
   state = {
-    displayComments: true,
+    displayComments: false,
     commentsOnDisplay: 0,
     comments: {
       0: [{ picture: "https://tse1-mm.cn.bing.net/th/id/R-C.65e439879aa61497589862adad1f88f6?rik=jDN9PbfgKozvdA&riu=http%3a%2f%2fscimg.jianbihuadq.com%2f202006%2f2020062019313121.jpg&ehk=KNd6VIpIB3vIh47ExDwI0l43YYaKMH5z5Ha7xgwG90E%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1", name: "Tom", timestamp: "2021-11-03", content: "Helping Parents Parents often get angry because of their trouble in their lives. Let's say that your mother is not happy about her boss. If she doesn't have other ways of expressing her emotions, she might come home and yell at you, scream at your dad, kick at the dog, or even say something mean to you." },
