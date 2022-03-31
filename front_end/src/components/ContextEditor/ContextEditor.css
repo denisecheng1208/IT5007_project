@@ -37,6 +37,8 @@ div.contextContainer div.editorWrapper div.btnWrapper button.removeEditor {
   margin-bottom: auto;
   height: 2vw;
   width: 70%;
+  font-size: 0.8vw;
+  line-height: 100%;
 }
 div.contextContainer div.editorWrapper div.btnWrapper button.removeEditor:hover {
   border-radius: 1vw;

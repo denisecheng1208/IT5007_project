@@ -85,7 +85,7 @@ export default class ContextEditor extends Component {
               <div className="editorWrapper row" key={idx}>
                 <MDEditor className="offset-1 col-10" height={500} value={this.state.markdown[idx]} onChange={(value) => this.onEditorContextChange(value, idx)} />
                 <div className="btnWrapper col-1">
-                  <button className='btn removeEditor col-1' onClick={() => this.removeEditor(idx)}>
+                  <button className='btn removeEditor' onClick={() => this.removeEditor(idx)}>
                     Delete
                   </button>
                 </div>
