@@ -74,7 +74,7 @@ export default class WelcomePage extends Component {
 
         return (
             <div className="row wrapper">
-                <div className='row offset-3 col-6 welcome'>Welcome to TechForum !</div>
+                <div className='col-12 welcome'>Welcome to TechForum !</div>
 
                 <div className='row offset-3 col-6 blocks'>
                     <div className='col-12 colorBar'>
@@ -113,7 +113,7 @@ export default class WelcomePage extends Component {
                             return (
                             <li key={d.id} className="block row">
                                 <FileEarmarkText className='col-1'/>
-                                <div className="col-6">
+                                <div className="col-7">
                                     {d.title}
                                 </div>
                                 <div className="col-2">
