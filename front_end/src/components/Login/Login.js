@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './Login.css'
 
 export default class Login extends Component {
     submitLogin(e) {
@@ -9,7 +10,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className="offset-1 col-10">
+            <div className="offset-4 col-4 loginWrapper">
                 <br/>
                 <h2>Sign in to TechForum</h2>
                 <br/>
@@ -23,7 +24,7 @@ export default class Login extends Component {
                     <input type="text" name="password" />
                     <br/>
                     <br/>
-                    <button>Sign in</button>
+                    <button className='btn btn-danger'>Sign in</button>
                 </form>
                 <br/>
                 <div>

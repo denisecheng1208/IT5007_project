@@ -1,0 +1,10 @@
+div.loginWrapper {
+  border-style: solid;
+  border-radius: 0.5vw;
+  background-color: rgba(1, 131, 205, 0.25);
+  padding-bottom: 1vw;
+  font-family: Arial, Helvetica, sans-serif;
+}
+div.loginWrapper form {
+  font-weight: bold;
+}

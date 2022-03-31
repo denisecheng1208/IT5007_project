@@ -5,9 +5,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-image: url(https://img.ixintu.com/download/jpg/201911/3bb5ea2eda4d00ef25cbf4a856ef1658.jpg!con);
+  background-repeat: repeat-y;
+  background-size: cover; */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+

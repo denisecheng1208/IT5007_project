@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './Signup.css'
 
 export default class Signup extends Component {
     submitSignup(e) {
@@ -20,7 +21,7 @@ export default class Signup extends Component {
 
     render() {
         return (
-            <div className="offset-1 col-10">
+            <div className="offset-4 col-4 signupWrapper">
                 <br/>
                 <h2>Sign up for new TechForum Account</h2>
                 <br/>
@@ -38,7 +39,15 @@ export default class Signup extends Component {
                     <input type="text" name="password2" />
                     <br/>
                     <br/>
-                    <button>Sign up</button>
+                    <label>Email</label>&nbsp;
+                    <input type="text" name="email" />
+                    <br/>
+                    <br/>
+                    <label>Phone</label>&nbsp;
+                    <input type="text" name="phone" />
+                    <br/>
+                    <br/>
+                    <button className='btn btn-danger'>Sign up</button>
                 </form>
                 <br/>
                 <div>
