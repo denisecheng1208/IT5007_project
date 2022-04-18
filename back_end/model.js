@@ -9,6 +9,12 @@ const UserSchema = new Schema({
     password: String,
     phone: String,
     email: String,
+    blogs: [{
+        blogId:{
+            type: ObjectId,
+            ref: 'blog',
+        }
+    }],
 })
 
 const SegmentSchema = new Schema({
@@ -20,7 +26,12 @@ const SegmentSchema = new Schema({
 
 const BlogSchema = new Schema({
     id: ObjectId,
-    // segments: Array,
+    segments: [{
+        segmentId:{
+            type: ObjectId,
+            ref: 'segment',
+        }
+    }],
     userId: ObjectId,
     title: String,
     type: String,

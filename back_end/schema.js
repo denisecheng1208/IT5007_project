@@ -120,6 +120,7 @@ const RootMutation = new GraphQLObjectType({
             },
             resolve(parent, args) {
                 try{
+                    args = {...args, blogs: []}
                     UserModel.create(args).then(result => null)
                     return true
                 }catch(error){
