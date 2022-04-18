@@ -62,6 +62,22 @@ const RootQuery = new GraphQLObjectType({
     name: 'rootQuery',
     fields: {
         // User
+        checkPassword: {
+            type: GraphQLBoolean,
+            args: { 
+                name: { type: GraphQLString }, 
+                pwInput: { type: GraphQLString } 
+            },
+            async resolve(parent, args) {
+                var password = "";
+                await UserModel.find({username: args.name}).then(result => {
+                    if (result.length === 1)
+                        password = result[0].password;
+                });
+                return args.pwInput === password;
+            }
+        },
+
         findUserByUsername: {
             type: User,
             args: { username: { type: GraphQLNonNull(GraphQLString) } },
