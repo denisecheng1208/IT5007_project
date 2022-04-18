@@ -1,6 +1,6 @@
 const graphql = require('graphql')
 const mongoose = require("mongoose")
-const { OrderModel, BlackListMemberModel } = require("./model")
+const { UserModel, SegmentModel, BlogModel } = require("./model")
 
 const {
     GraphQLObjectType,
@@ -10,41 +10,52 @@ const {
     GraphQLList,
     GraphQLNonNull,
     GraphQLBoolean,
+    GraphQLInputObjectType,
 } = graphql;
+
+// import { GraphQLInputObjectType } from 'graphql';
 
 const ObjectId = require("mongodb").ObjectId;
 
+const SegmentInput = new GraphQLInputObjectType({
+    name: 'segmentInput',
+    fields: {
+        id: { type: GraphQLString },
+        context: { type: GraphQLString },
+    }
+})
+
+const Segment = new GraphQLObjectType({
+    name: 'segment',
+    fields: {
+        id: { type: GraphQLString },
+        blogId: { type: GraphQLString },
+        userId: { type: GraphQLString },
+        context: { type: GraphQLString },
+    }
+})
+
+const Blog = new GraphQLObjectType({
+    name: 'blog',
+    fields: {
+        id: { type: GraphQLString },
+        segments: { type: GraphQLList(Segment) },
+        userId: { type: GraphQLString },
+        title: { type: GraphQLString },
+        type: { type: GraphQLString },
+    }
+})
+
 const User = new GraphQLObjectType({
     name: 'user',
-    fields: () => ({
+    fields: {
         id: { type: GraphQLString },
         username: { type: GraphQLString },
         password: { type: GraphQLString },
         email: { type: GraphQLString },
         phone: { type: GraphQLString },
         blogs: { type: GraphQLList(Blog) },
-    })
-})
-
-const Segment = new GraphQLObjectType({
-    name: 'segment',
-    fields: () => ({
-        id: { type: GraphQLString },
-        blogId: { type: GraphQLInt },
-        userId: { type: GraphQLInt },
-        context: { type: GraphQLString },
-    })
-})
-
-const Blog = new GraphQLObjectType({
-    name: 'blog',
-    fields: () => ({
-        id: { type: GraphQLString },
-        segments: { type: GraphQLList(Segment) },
-        userId: { type: GraphQLInt },
-        title: { type: GraphQLString },
-        type: { type: GraphQLString },
-    })
+    }
 })
 
 const RootQuery = new GraphQLObjectType({
@@ -98,7 +109,6 @@ const RootQuery = new GraphQLObjectType({
 const RootMutation = new GraphQLObjectType({
     name: 'rootMutation',
     fields: {
-
         // User
         addUser: {
             type: GraphQLBoolean,
@@ -109,7 +119,13 @@ const RootMutation = new GraphQLObjectType({
                 phone: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve(parent, args) {
-                // ???
+                try{
+                    UserModel.create(args).then(result => null)
+                    return true
+                }catch(error){
+                    console.log(error)
+                    return false
+                }
             }
         },
 
@@ -195,7 +211,7 @@ const RootMutation = new GraphQLObjectType({
             type: GraphQLBoolean,
             args: {
                 userId: { type: GraphQLNonNull(GraphQLString) },
-                segments: { type: GraphQLList(Segment) },
+                segments: { type: GraphQLList(SegmentInput) },
                 title: { type: GraphQLNonNull(GraphQLString) },
                 type: { type: GraphQLNonNull(GraphQLString) },
             },
@@ -207,7 +223,7 @@ const RootMutation = new GraphQLObjectType({
         deleteBlog: {
             type: GraphQLBoolean,
             args: {
-                blogId: { type: GraphQLList(Segment) },
+                blogId: { type: GraphQLList(SegmentInput) },
             },
             resolve(parent, args) {
                 // ???
