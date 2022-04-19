@@ -34,6 +34,36 @@ div.wrapper div.profile ul.userInfo li.firstRow div.username {
 div.wrapper div.profile ul.userInfo li.firstRow div.username span {
   font-weight: normal;
 }
+div.wrapper div.profile ul.userInfo li.firstRow div.password {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+div.wrapper div.profile ul.userInfo li.firstRow div.password button.changePassword {
+  height: 100%;
+  outline: none !important;
+  box-shadow: none !important;
+  font-family: Arial, Helvetica, sans-serif;
+  color: orangered;
+}
+div.wrapper div.profile ul.userInfo li.firstRow div.password button.changePassword:hover {
+  background-color: rgba(0, 237, 100, 0.3);
+}
+div.wrapper div.profile ul.userInfo li.firstRow div.password button.changePassword:focus {
+  background-color: aliceblue;
+}
+div.wrapper div.profile ul.userInfo li.firstRow div.password button.btnCancle {
+  height: 100%;
+  outline: none !important;
+  box-shadow: none !important;
+  font-family: Arial, Helvetica, sans-serif;
+  color: orangered;
+}
+div.wrapper div.profile ul.userInfo li.firstRow div.password button.btnCancle:hover {
+  background-color: rgba(0, 237, 100, 0.3);
+}
+div.wrapper div.profile ul.userInfo li.firstRow div.password button.btnCancle:focus {
+  background-color: aliceblue;
+}
 div.wrapper div.profile ul.userInfo li.secondRow {
   margin-top: 1vw;
   margin-bottom: 0.5vw;

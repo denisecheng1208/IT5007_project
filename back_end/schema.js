@@ -13,7 +13,8 @@ const {
     GraphQLInputObjectType,
 } = graphql;
 
-// import { GraphQLInputObjectType } from 'graphql';
+
+// import { GraphQL } from 'graphql';
 
 const ObjectId = require("mongodb").ObjectId;
 
@@ -43,6 +44,7 @@ const Blog = new GraphQLObjectType({
         userId: { type: GraphQLString },
         title: { type: GraphQLString },
         type: { type: GraphQLString },
+        publishDate: { type: GraphQLString  },
     }
 })
 
@@ -96,7 +98,7 @@ const RootQuery = new GraphQLObjectType({
 
         // Segment
         findSegmentByBlogId: {
-            type: Segment,
+            type: GraphQLList(Segment),
             args: { blogId: { type: GraphQLNonNull(GraphQLString) } },
             async resolve(parent, args) {
                 // ??? 

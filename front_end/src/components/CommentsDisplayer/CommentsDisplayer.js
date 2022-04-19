@@ -4,6 +4,50 @@ import { ArrowRight, ArrowLeft } from 'react-bootstrap-icons';
 
 export default class CommentsDisplayer extends Component {
 
+    state = {
+        id: "3124",
+
+        blog: {
+            segments: [],
+            title: "",
+            type: "",
+        },
+    }
+
+    componentDidMount = () => {
+        this.loadData()
+    }
+
+    loadData = () => {
+        async function getData(id){
+            var jsonData = {}
+            jsonData.query = `query FindSegmentByBlogId($blogId: String!){
+                findSegmentByBlogId(blogId: $blogId)
+            }`
+            jsonData.variables = {
+                blogId: id,
+            }
+            return await fetch("http://localhost:5000/graphql", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify(jsonData),
+            }).catch(error => {
+                window.alert(error)
+                return
+            })
+        }
+
+        var response = getData(this.state.id)
+        response.then(promiseResult => {
+            return promiseResult.json()
+        }).then(result => {
+            this.setState({orders: result.data.getOrders, takenNumber: result.data.getOrders.length})
+        })
+    }
+
     toggle = () => {
         var cur = this.props.displayComments;
         this.props.changeDisplayState({ displayComments: !cur })
