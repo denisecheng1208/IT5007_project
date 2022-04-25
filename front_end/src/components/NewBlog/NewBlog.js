@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import MDEditor, { commands, ICommand } from '@uiw/react-md-editor';
 import './NewBlog.css'
+import cookie from 'react-cookies'
 
 export default class NewBlog extends Component {
     state = {
-        userId: "",
+        username: "",
         title: "",
         type: "Front_End",
         segments: [""],
@@ -32,14 +33,77 @@ export default class NewBlog extends Component {
     }
 
     submit = () => {
+        async function addBlog(username, title, type) {
+            var jsonData = {};
+            jsonData.query = `mutation AddBlog($username: String!, $title: String!, $type: String!){
+                  addBlog(username: $username, title: $title, type: $type)
+                }`;
+            jsonData.variables = {
+              username: username,
+              title: title,
+              type: type,
+            };
+            return await fetch("http://localhost:5000/graphql", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(jsonData),
+            }).catch(error => {
+              window.alert(error)
+              return
+            });
+          }
 
+          async function addSegment(username, blogId, context, sequence) {
+            var jsonData = {};
+            jsonData.query = `mutation AddSegment($username: String!, $blogId: String!, $context: String!, $sequence: Int!){
+                addSegment(username: $username, blogId: $blogId, context: $context, sequence: $sequence)
+                }`;
+            jsonData.variables = {
+              username: username,
+              blogId: blogId,
+              context: context,
+              sequence: sequence,
+            };
+            return await fetch("http://localhost:5000/graphql", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(jsonData),
+            }).catch(error => {
+              window.alert(error)
+              return
+            });
+          }
+
+          var response = addBlog(cookie.load("username"), this.state.title, this.state.type)
+
+          response.then(result => {
+            if (result.ok) {
+              return result.json()
+            } else {
+              alert("Error!")
+              return null
+            }
+          }).then(result => {
+              return result.data.addBlog
+          }).then(blogId => {
+            for(var i=0;i<this.state.segments.length;i++){
+                addSegment(cookie.load("username"), blogId, this.state.segments[i], i)
+            }
+            alert("Success!")
+            window.location.href = "http://localhost:3000/"
+          })
+          
     }
 
     render() {
         return (
             <div className='contextContainer col-10 offset-1'>
                 <div className="row offset-1 col-10 title">
-                    <input className="col-8 titleInput" type='text' defaultValue={this.state.title} onChange={(val) => { this.setState({ title: val }) }}></input>
+                    <input className="col-8 titleInput" type='text' defaultValue={this.state.title} onChange={(event) => { this.setState({ title: event.target.value }) }}></input>
                     <select onChange={(val) => this.onTypeChange(val)
                     } defaultValue={this.state.type} className="offset-2 col-2 type">
                         <option value={"Front_End"} >Front End</option>

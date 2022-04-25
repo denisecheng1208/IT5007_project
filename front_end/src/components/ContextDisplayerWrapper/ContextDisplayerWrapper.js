@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import CommentsDisplayer from '../CommentsDisplayer/CommentsDisplayer'
 import ContextDispalyer from '../ContextDisplayer/ContextDispalyer'
+import cookie from 'react-cookies'
 
 export default class ContextsDisplayerWrapper extends Component {
   state = {
     displayComments: false,
     commentsOnDisplay: 0,
+    segments: [],
     comments: {
       0: [{ picture: "https://tse1-mm.cn.bing.net/th/id/R-C.65e439879aa61497589862adad1f88f6?rik=jDN9PbfgKozvdA&riu=http%3a%2f%2fscimg.jianbihuadq.com%2f202006%2f2020062019313121.jpg&ehk=KNd6VIpIB3vIh47ExDwI0l43YYaKMH5z5Ha7xgwG90E%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1", name: "Tom", timestamp: "2021-11-03", content: "Helping Parents Parents often get angry because of their trouble in their lives. Let's say that your mother is not happy about her boss. If she doesn't have other ways of expressing her emotions, she might come home and yell at you, scream at your dad, kick at the dog, or even say something mean to you." },
       { picture: "https://tse1-mm.cn.bing.net/th/id/R-C.65e439879aa61497589862adad1f88f6?rik=jDN9PbfgKozvdA&riu=http%3a%2f%2fscimg.jianbihuadq.com%2f202006%2f2020062019313121.jpg&ehk=KNd6VIpIB3vIh47ExDwI0l43YYaKMH5z5Ha7xgwG90E%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1", name: "Tom", timestamp: "2021-11-03", content: "Helping Parents Parents often get angry because of their trouble in their lives. Let's say that your mother is not happy about her boss. If she doesn't have other ways of expressing her emotions, she might come home and yell at you, scream at your dad, kick at the dog, or even say something mean to you." },
@@ -74,12 +76,102 @@ export default class ContextsDisplayerWrapper extends Component {
     'Licensed under the MIT License."'],
   }
 
+  componentDidMount = () => {
+    this.loadDataForBlog()
+    this.loadDataForSegment()
+  }
+
+  loadDataForBlog = () => {
+    async function findBlogById(blogId) {
+      var jsonData = {}
+      jsonData.query = `query FindBlogById($blogId: String!){
+        findBlogById(blogId: $blogId){
+            title
+            type
+            id
+            publishDate
+          }
+        }`
+      jsonData.variables = {
+        blogId: blogId,
+      }
+      return await fetch("http://localhost:5000/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      }).catch(error => {
+        window.alert(error)
+        return
+      })
+    }
+
+    var response = findBlogById(cookie.load("blogIdOnDisplay"))
+
+    response.then(result => {
+      if (result.ok) {
+        return result.json()
+      } else {
+        alert("Error!")
+        return null
+      }
+    }).then(result => {
+      this.setState({
+        blog: result.data.findBlogById
+      })
+    })
+  }
+
+  loadDataForSegment = () => {
+    async function findSegmentsByBlogId(blogId) {
+      var jsonData = {}
+      jsonData.query = `query FindSegmentsByBlogId($blogId: String!){
+        findSegmentsByBlogId(blogId: $blogId){
+            id
+            context
+            sequence
+          }
+        }`
+      jsonData.variables = {
+        blogId: blogId,
+      }
+      return await fetch("http://localhost:5000/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      }).catch(error => {
+        window.alert(error)
+        return
+      })
+    }
+
+    var response = findSegmentsByBlogId(cookie.load("blogIdOnDisplay"))
+
+    response.then(result => {
+      if (result.ok) {
+        return result.json()
+      } else {
+        alert("Error!")
+        return null
+      }
+    }).then(result => {
+      this.setState({
+        segments: result.data.findSegmentsByBlogId,
+      })
+    })
+  }
+
   render() {
     if (this.state.displayComments) {
       return (
         <div className='col-12 row'>
           <div className='col-9 row'>
-            <ContextDispalyer commentsOnDisplay={this.state.commentsOnDisplay} displayComments={this.state.displayComments} context={this.state.markdown} changeDisplayState={(newState) => this.setState(newState)} />
+            <ContextDispalyer blogInfo={this.state.blog} commentsOnDisplay={this.state.commentsOnDisplay} displayComments={this.state.displayComments} context={this.state.segments} changeDisplayState={(newState) => this.setState(newState)} />
           </div>
           <div className='col-3 row'>
             <CommentsDisplayer commentsOnDisplay={this.state.commentsOnDisplay} comments={this.state.comments} displayComments={this.state.displayComments} changeDisplayState={(newState) => this.setState(newState)} />
@@ -90,7 +182,7 @@ export default class ContextsDisplayerWrapper extends Component {
       return (
         <div className='col-12 row'>
           <div className='offset-1 col-10 row'>
-            <ContextDispalyer displayComments={this.state.displayComments} context={this.state.markdown} changeDisplayState={(newState) => this.setState(newState)} />
+            <ContextDispalyer blogInfo={this.state.blog} displayComments={this.state.displayComments} context={this.state.segments} changeDisplayState={(newState) => this.setState(newState)} />
           </div>
           <div className='col-1 row'>
             <CommentsDisplayer commentsOnDisplay={this.state.commentsOnDisplay} comments={this.state.comments} displayComments={this.state.displayComments} changeDisplayState={(newState) => this.setState(newState)} />

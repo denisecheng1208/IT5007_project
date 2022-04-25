@@ -9,8 +9,18 @@ export default class ContextDispalyer extends Component {
         userId: "",
         displayAddCommentTab: false,
         addCommentTabOnDisplay: 0,
-        title: "test",
-        type: "Front End",
+        blog: this.props.blogInfo,
+        segments: this.props.context,
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        if (nextProps.blogInfo !== prevState.blog || nextProps.segments !== prevState.segments) {
+            return {
+                blog: nextProps.blogInfo,
+                segments: nextProps.context
+            }
+        }
+        return null
     }
 
     onContextClick = (idx) => {
@@ -31,17 +41,18 @@ export default class ContextDispalyer extends Component {
         return (
             <div className='Wrapper'>
                 <div className="row offset-1 col-9 title">
-                    <span className="col-8 titleDisplay" >{this.state.title}</span>
+
+                    <span className="col-8 titleDisplay" >{this.state.blog == null? "loading" : this.state.blog.title}</span>
                     <span className="offset-2 col-2 type">
-                        <BookmarkCheck/>&nbsp;&nbsp;&nbsp;{this.state.type}
+                        <BookmarkCheck/>&nbsp;&nbsp;&nbsp;{this.state.blog == null? "loading" : this.state.blog.type}
                     </span>
                 </div>
                 <div className="offset-1 col-10 contextWrapper">
                     {
-                        this.props.context.map((val, idx) => {
+                        this.state.segments == null? "loading" : this.state.segments.map((val, idx) => {
                             return (
                                 <div className="markDownContextWrapper row" key={idx} >
-                                    <MDEditor.Markdown height={400} className="markDownContext col-11" source={this.props.context[idx]} />
+                                    <MDEditor.Markdown height={400} className="markDownContext col-11" source={this.state.segments[idx].context} />
                                     <div className="ctrlBtn col-1 row">
                                         <div className="btnWrapper">
                                             <button className='showComment btn col-12' onClick={() => this.onContextClick(idx)}>

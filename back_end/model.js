@@ -1,6 +1,7 @@
 const { ListCollectionsCursor } = require('mongodb')
 let mongoose = require('mongoose')
 let ObjectId = mongoose.Schema.Types.ObjectId
+let Number = mongoose.Schema.Types.Number
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
@@ -25,6 +26,7 @@ const SegmentSchema = new Schema({
     blogId: ObjectId,
     username: String,
     context: String,
+    sequence: Number,
 })
 
 const BlogSchema = new Schema({

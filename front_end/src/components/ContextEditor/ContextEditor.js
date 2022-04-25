@@ -93,7 +93,32 @@ export default class ContextEditor extends Component {
       });
     }
 
-    var response = addBlog(this.state.user.id, this.state.segments, this.state.title, this.state.type)
+    async function addSegment(username, blogId, context, sequence) {
+      var jsonData = {};
+      jsonData.query = `mutation AddSegment($username: String!, $blogId: String!, $context: String!, $sequence: Int!){
+          addSegment(username: $username, blogId: $blogId, context: $context, sequence: $sequence)
+          }`;
+      jsonData.variables = {
+        username: username,
+        blogId: blogId,
+        context: context,
+        sequence: sequence,
+      };
+      return await fetch("http://localhost:5000/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      }).catch(error => {
+        window.alert(error)
+        return
+      });
+    }
+
+    
+
+    var response = addBlog(this.state.username, this.state.title, this.state.type)
 
     response.then(result => {
       if (result.ok) {

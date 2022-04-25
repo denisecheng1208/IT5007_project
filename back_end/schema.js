@@ -11,6 +11,7 @@ const {
     GraphQLNonNull,
     GraphQLBoolean,
     GraphQLInputObjectType,
+    GraphQLID,
 } = graphql;
 
 
@@ -23,6 +24,7 @@ const SegmentInput = new GraphQLInputObjectType({
     fields: {
         id: { type: GraphQLString },
         context: { type: GraphQLString },
+        sequence: {type: GraphQLInt },
     }
 })
 
@@ -33,6 +35,7 @@ const Segment = new GraphQLObjectType({
         blogId: { type: GraphQLString },
         username: { type: GraphQLString },
         context: { type: GraphQLString },
+        sequence: { type: GraphQLInt },
     }
 })
 
@@ -98,7 +101,12 @@ const RootQuery = new GraphQLObjectType({
             type: GraphQLList(Segment),
             args: { blogId: { type: GraphQLNonNull(GraphQLString) } },
             async resolve(parent, args) {
-                return await SegmentModel.find({blogId: args.blogId});
+                var ret = await SegmentModel.find({blogId: args.blogId}).lean();
+                ret.forEach(obj => {
+                    obj.id = obj._id.toString()
+                    return obj
+                })
+                return ret
             }
         },
 
@@ -107,7 +115,21 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(Blog),
             args: { username: { type: GraphQLNonNull(GraphQLString) } },
             async resolve(parent, args) {
-                return await BlogModel.find({username: args.username});
+                var ret = await BlogModel.find({username: args.username}).lean();
+                for(var i=0;i<ret.length;i++){
+                    ret[i].id = ret[i]._id.toString()
+                }
+                return ret
+            }
+        },
+
+        findBlogById: {
+            type: Blog,
+            args: { blogId: { type: GraphQLNonNull(GraphQLString) } },
+            async resolve(parent, args) {
+                var ret = await BlogModel.findOne({_id: mongoose.Types.ObjectId(args.blogId)}).lean();
+                ret._id = ret._id.toString()
+                return ret
             }
         },
 
@@ -219,6 +241,7 @@ const RootMutation = new GraphQLObjectType({
                 username: { type: GraphQLNonNull(GraphQLString) },
                 blogId: { type: GraphQLNonNull(GraphQLString) },
                 context: { type: GraphQLNonNull(GraphQLString) },
+                sequence: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve(parent, args) {
                 try{
@@ -254,23 +277,24 @@ const RootMutation = new GraphQLObjectType({
 
         // Blog
         addBlog: {
-            type: GraphQLBoolean,
+            type: GraphQLString,
             args: {
                 username: { type: GraphQLNonNull(GraphQLString) },
                 title: { type: GraphQLNonNull(GraphQLString) },
                 type: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
+            async resolve(parent, args) {
                 try{
                     var curDate = new Date();
                     var mins = curDate.getMinutes() < 10 ? "0" + curDate.getMinutes() : curDate.getMinutes();
                     var curTime = curDate.getFullYear() + '/' + (curDate.getMonth() + 1) + "/" + curDate.getDate() + " " + curDate.getHours() + ":" + mins;
+                    var ret = null
                     args = {...args, segments: [], publishDate: curTime};
-                    BlogModel.create(args).then(result => null);
-                    return true
+                    await BlogModel.create(args).then(result => {ret = result._id + ""});
+                    return ret
                 }catch(error){
                     console.log(error)
-                    return false
+                    return null
                 }
             }
         },

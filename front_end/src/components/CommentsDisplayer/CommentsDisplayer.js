@@ -15,7 +15,8 @@ export default class CommentsDisplayer extends Component {
     }
 
     componentDidMount = () => {
-        this.loadData()
+        // this.loadData()
+        
     }
 
     loadData = () => {

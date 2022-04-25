@@ -22,6 +22,7 @@ export default class AccountInfo extends Component {
 
     componentDidMount = () => {
         this.loadDataForUser()
+        this.loadDataForBlogs()
     }
 
     loadDataForUser = () => {
@@ -77,13 +78,17 @@ export default class AccountInfo extends Component {
     }
 
     loadDataForBlogs = () => {
-        async function findBlogs(id) {
+        async function findBlogs(username) {
             var jsonData = {}
-            jsonData.query = `query FindAllBlogsByUsername($username: String!){
-                findAllBlogsByUsername(username: $username)
+            jsonData.query = `query FindAllBlogsByUserName($username: String!){
+                findAllBlogsByUserName(username: $username){
+                    title
+                    id
+                    publishDate
+                }
             }`
             jsonData.variables = {
-                username: id,
+                username: username,
             }
             return await fetch("http://localhost:5000/graphql", {
                 method: "POST",
@@ -102,10 +107,13 @@ export default class AccountInfo extends Component {
 
         response.then(result => {
             if (result.ok) {
-                alert("Success!")
+                return result.json()
             } else {
                 alert("Error!")
+                return null;
             }
+        }).then(result => {
+            this.setState({blogs: result.data.findAllBlogsByUserName})
         })
     }
 
@@ -338,11 +346,11 @@ export default class AccountInfo extends Component {
                             this.state.blogs.map((cur, idx) => {
                                 return (<li key={idx} className="blog row">
                                     <FileEarmarkText className='col-1' />
-                                    <div className="col-9">
+                                    <div className="col-8">
                                         {cur.title}
                                     </div>
-                                    <div className="col-2">
-                                        {cur.time}
+                                    <div className="col-3">
+                                        {cur.publishDate}
                                     </div>
                                 </li>)
                             })

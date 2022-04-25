@@ -29,7 +29,7 @@ export default class Header extends Component {
         <div className='col-1 listBtn headerCompo'>
           <a href='/displayBlog'>
             <button className='btn'>
-              A Blog
+              My Blogs
             </button>
           </a>
         </div>

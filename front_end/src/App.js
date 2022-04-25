@@ -10,6 +10,7 @@ import { Routes, Route } from "react-router-dom";
 import AccountInfo from './components/AccountInfo/AccountInfo';
 import NewBlog from './components/NewBlog/NewBlog';
 import cookie from 'react-cookies'
+import BlogList from './components/BlogList/BlogList'
 
 function App() {
   return (
@@ -20,9 +21,10 @@ function App() {
         <Route path="/" element={<WelcomePage/>} />
         <Route path="/signUp" element={<Signup/>} />
         <Route path="/login" element={<Login/>} />
-        <Route path="/displayBlog" element={cookie.load("username") == null? <Login/> : <ContextsDisplayerWrapper />} />
+        <Route path="/displayBlog" element={cookie.load("username") == null? <Login/> : <BlogList />} />
         <Route path="/account" element={cookie.load("username") == null? <Login/> : <AccountInfo />} />
         <Route path="/newBlog" element={cookie.load("username") == null? <Login/> : <NewBlog />} />
+        <Route path="/blogDetail" element={cookie.load("username") == null? <Login/> : <ContextsDisplayerWrapper />} />
       </Routes>
       <Footer />
     </div>
