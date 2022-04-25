@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Login.css'
+import cookie from 'react-cookies'
 
 export default class Login extends Component {
     submitLogin(e) {
@@ -45,7 +46,11 @@ export default class Login extends Component {
                     document.forms.login.password.value = "";
 
                     alert("Login up successfully!");
-                    //route to welcome page and hide sign in (log in automatically)**************************
+                    cookie.save('username', user.username, { path: '/' });
+                    // route to welcome page
+                    window.location.href = '/';
+                    // hide sign in/signup display log out 
+                    // **********************
                 } else {
                     alert("Username or Password is not correct!");
                 }
@@ -74,7 +79,7 @@ export default class Login extends Component {
                 </form>
                 <br/>
                 <div>
-                    New to TechForum? <a href="javascript:void(0)" onClick={() => {}}>Create an account</a>
+                    New to TechForum? <a href='/signup'>Create an account</a>
                 </div>
             </div>
         );

@@ -100,7 +100,7 @@ export default class Signup extends Component {
                 </form>
                 <br/>
                 <div>
-                    Already have an account? <a href="javascript:void(0)" onClick={() => {}}>Sign in</a>
+                    Already have an account? <a href='/login'>Sign in</a>
                 </div>
             </div>
         );
