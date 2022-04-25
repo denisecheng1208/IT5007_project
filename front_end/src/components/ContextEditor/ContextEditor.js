@@ -79,6 +79,13 @@ export default class ContextEditor extends Component {
   render() {
     return (
       <div className='contextContainer col-10 offset-1'>
+        <div className="row offset-1 col-10 title">
+          <input className="col-8 titleInput" type='text' placeholder='title' onChange={(val)=>{this.setState({title: val})}}></input>
+          <select className="offset-2 col-2 type">
+            <option>Front End</option>
+            <option>Back End</option>
+          </select>
+        </div>
         {
           this.state.markdown.map((cur, idx) => {
             return (

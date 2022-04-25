@@ -4,8 +4,11 @@ let ObjectId = mongoose.Schema.Types.ObjectId
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
-    id: ObjectId,
-    username: String,
+    username: {
+        type: String,
+        unique: true,
+        required: true,
+    },
     password: String,
     phone: String,
     email: String,

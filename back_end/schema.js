@@ -44,7 +44,7 @@ const Blog = new GraphQLObjectType({
         username: { type: GraphQLString },
         title: { type: GraphQLString },
         type: { type: GraphQLString },
-        publishDate: { type: GraphQLString  },
+        publishDate: { type: GraphQLString },
     }
 })
 
@@ -72,7 +72,7 @@ const RootQuery = new GraphQLObjectType({
             },
             async resolve(parent, args) {
                 var password = "";
-                await UserModel.find({username: args.name}).then(result => {
+                await UserModel.find({ username: args.name }).then(result => {
                     if (result.length === 1)
                         password = result[0].password;
                 });
@@ -84,7 +84,13 @@ const RootQuery = new GraphQLObjectType({
             type: User,
             args: { username: { type: GraphQLNonNull(GraphQLString) } },
             async resolve(parent, args) {
-                return await UserModel.findOne({username: args.username});
+                var user = null
+                await UserModel.find({ username: args.username }).then(result => {
+                    if (result.length == 1) {
+                        user = result[0]
+                    }
+                })
+                return user
             }
         },
 
@@ -128,12 +134,12 @@ const RootMutation = new GraphQLObjectType({
                 email: { type: GraphQLNonNull(GraphQLString) },
                 phone: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
-                try{
-                    args = {...args, blogs: []}
-                    UserModel.create(args).then(result => null)
+            async resolve(parent, args) {
+                try {
+                    args = { ...args, blogs: [] }
+                    await UserModel.create(args).then(result => null)
                     return true
-                }catch(error){
+                } catch (error) {
                     console.log(error)
                     return false
                 }
@@ -146,12 +152,12 @@ const RootMutation = new GraphQLObjectType({
                 username: { type: GraphQLNonNull(GraphQLString) },
                 newPassword: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
-                try{
-                    UserModel.updateOne({username: args.username}, {$set:{password: args.newPassword}}).then(result => null)
+            async resolve(parent, args) {
+                try {
+                    await UserModel.updateOne({ username: args.username }, { password: args.newPassword })
                     return true
-                }catch(error){
-                    console.log(error)
+                } catch (e) {
+                    console.log(e)
                     return false
                 }
             }
@@ -163,12 +169,12 @@ const RootMutation = new GraphQLObjectType({
                 username: { type: GraphQLNonNull(GraphQLString) },
                 newEmail: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
-                try{
-                    UserModel.updateOne({username: args.username}, {$set:{email: args.newEmail}}).then(result => null)
+            async resolve(parent, args) {
+                try {
+                    await UserModel.updateOne({ username: args.username }, { email: args.newEmail })
                     return true
-                }catch(error){
-                    console.log(error)
+                } catch (e) {
+                    console.log(e)
                     return false
                 }
             }
@@ -180,9 +186,9 @@ const RootMutation = new GraphQLObjectType({
                 username: { type: GraphQLNonNull(GraphQLString) },
                 newPhone: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
-                try{
-                    UserModel.updateOne({username: args.username}, {$set:{phone: args.newPhone}}).then(result => null)
+            async resolve(parent, args) {
+                try {
+                    await UserModel.updateOne({ username: args.username }, { phone: args.newPhone })
                     return true
                 }catch(error){
                     console.log(error)
@@ -194,10 +200,16 @@ const RootMutation = new GraphQLObjectType({
         deleteUser: {
             type: GraphQLBoolean,
             args: {
-                userId: { type: GraphQLNonNull(GraphQLString) },
+                username: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
-                // ???
+            async resolve(parent, args) {
+                try {
+                    await UserModel.deleteOne({ username: args.username })
+                    return true
+                } catch (e) {
+                    console.log(e)
+                    return false
+                }
             }
         },
 

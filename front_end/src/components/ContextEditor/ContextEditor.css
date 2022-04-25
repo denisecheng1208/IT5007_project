@@ -1,6 +1,20 @@
 div.contextContainer {
   background-color: white;
 }
+div.contextContainer div.title {
+  margin-bottom: 2vw;
+  padding: 1vw;
+  background-color: rgba(13, 17, 23, 0.9);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+div.contextContainer div.title input.titleInput {
+  font-size: 1vw;
+}
+div.contextContainer div.title select.type {
+  line-height: 100%;
+  background-color: rgba(81, 236, 123, 0.9);
+  border-radius: 0.1vw;
+}
 div.contextContainer div.addNewEditor button.newTab {
   background-color: #13aa52;
   color: white;

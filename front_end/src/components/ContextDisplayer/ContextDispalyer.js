@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import MDEditor from '@uiw/react-md-editor'
-import { ChatLeftText, PlusSquare } from 'react-bootstrap-icons'
+import { ChatLeftText, PlusSquare, BookmarkCheck } from 'react-bootstrap-icons'
 import './ContextDisplayer.css'
 import Textarea from '@uiw/react-md-editor/lib/components/TextArea/Textarea'
 
@@ -9,6 +9,8 @@ export default class ContextDispalyer extends Component {
         userId: "",
         displayAddCommentTab: false,
         addCommentTabOnDisplay: 0,
+        title: "test",
+        type: "Front End",
     }
 
     onContextClick = (idx) => {
@@ -28,6 +30,12 @@ export default class ContextDispalyer extends Component {
     render() {
         return (
             <div className='Wrapper'>
+                <div className="row offset-1 col-9 title">
+                    <span className="col-8 titleDisplay" >{this.state.title}</span>
+                    <span className="offset-2 col-2 type">
+                        <BookmarkCheck/>&nbsp;&nbsp;&nbsp;{this.state.type}
+                    </span>
+                </div>
                 <div className="offset-1 col-10 contextWrapper">
                     {
                         this.props.context.map((val, idx) => {
