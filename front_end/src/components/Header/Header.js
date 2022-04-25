@@ -44,6 +44,14 @@ export default class Header extends Component {
           </a>
         </div>
 
+        <div className='col-1 createBlogBtn headerCompo'>
+          <a href='/newBlog'>
+            <button className='btn'>
+              New Blog
+            </button>
+          </a>
+        </div>
+
         <div className='offset-1 col-3 search headerCompo'>
           <input placeholder="Search now!"></input> &nbsp;
           <button className="searchBtn btn btn-default btn-lg">

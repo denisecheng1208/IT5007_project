@@ -8,6 +8,7 @@ import Signup from './components/Signup/Signup.js'
 import WelcomePage from './components/WelcomePage/WelcomePage.js'
 import { Routes, Route } from "react-router-dom";
 import AccountInfo from './components/AccountInfo/AccountInfo';
+import NewBlog from './components/NewBlog/NewBlog';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/displayBlog" element={<ContextsDisplayerWrapper />} />
         <Route path="/account" element={<AccountInfo />} />
+        <Route path="/newBlog" element={<NewBlog />} />
       </Routes>
       <Footer />
     </div>

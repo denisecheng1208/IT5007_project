@@ -5,6 +5,8 @@ import MDEditor, { commands, ICommand } from '@uiw/react-md-editor';
 export default class ContextEditor extends Component {
   state = {
     userId: "",
+    title: "test",
+    type: "Back_End",
     markdown: ['## This is a demo for text input\n' + 'A simple markdown editor with preview, implemented with React.js and TypeScript. This React Component aims to provide a simple Markdown editor with syntax highlighting support. This is based on `textarea` encapsulation, so it does not depend on any modern code editors such as Acs, CodeMirror, Monaco etc. \n' +
       '\n' +
       '### Features\n' +
@@ -68,7 +70,38 @@ export default class ContextEditor extends Component {
   }
 
   submit = () => {
+    async function addBlog(username, segments, title, type) {
+      var jsonData = {};
+      jsonData.query = `mutation AddBlog($username: String!, $segments: String!, $title: String!, $type: String!){
+            addBlog(username: $username, segments: $segments, title: $title, type: $type)
+          }`;
+      jsonData.variables = {
+        username: username,
+        segments: segments,
+        title: title,
+        type: type,
+      };
+      return await fetch("http://localhost:5000/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      }).catch(error => {
+        window.alert(error)
+        return
+      });
+    }
 
+    var response = addBlog(this.state.user.id, this.state.segments, this.state.title, this.state.type)
+
+    response.then(result => {
+      if (result.ok) {
+        alert("Success!")
+      } else {
+        alert("Error!")
+      }
+    })
   }
 
   removeEditor = (target) => {
@@ -76,14 +109,18 @@ export default class ContextEditor extends Component {
     this.setState({markdown: newVal})
   }
 
+  onTypeChange = (event) => {
+    this.setState({type: event.target.value})
+  }
+
   render() {
     return (
       <div className='contextContainer col-10 offset-1'>
         <div className="row offset-1 col-10 title">
-          <input className="col-8 titleInput" type='text' placeholder='title' onChange={(val)=>{this.setState({title: val})}}></input>
-          <select className="offset-2 col-2 type">
-            <option>Front End</option>
-            <option>Back End</option>
+          <input className="col-8 titleInput" type='text' defaultValue={this.state.title} onChange={(val)=>{this.setState({title: val})}}></input>
+          <select onChange={(val) => this.onTypeChange(val)} defaultValue={this.state.type} className="offset-2 col-2 type">
+            <option value={"Front_End"}>Front End</option>
+            <option value={"Back_End"}>Back End</option>
           </select>
         </div>
         {
