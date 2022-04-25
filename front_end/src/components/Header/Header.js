@@ -1,8 +1,14 @@
 import './Header.css';
 import React, { Component } from 'react'
 import { Search } from 'react-bootstrap-icons';
+import cookie from 'react-cookies'
 
 export default class Header extends Component {
+
+  signOut = () => {
+    cookie.remove("username")
+  }
+
   render() {
     return (
       <div className='header row'>
@@ -59,21 +65,41 @@ export default class Header extends Component {
           </button>
         </div>
 
-        <div className='col-1 logIn headerCompo'>
-          <a href='/login'>
-            <button className='btn logInBtn btn-lg'>
-              Sign in
-            </button>
-          </a>
-        </div>
 
-        <div className='col-1 signUp headerCompo'>
-          <a href='/signup'>
-            <button className='btn signUpBtn btn-lg'>
-              Sign up
-            </button>
-          </a>
-        </div>
+        {
+          cookie.load("username") == null ? (
+            <div className='col-1 logIn headerCompo'>
+              <a href='/login'>
+                <button className='btn logInBtn btn-lg'>
+                  Sign in
+                </button>
+              </a>
+            </div>) : null
+        }
+
+        {
+          cookie.load("username") == null ? (
+            <div className='col-1 signUp headerCompo'>
+              <a href='/signup'>
+                <button className='btn signUpBtn btn-lg'>
+                  Sign up
+                </button>
+              </a>
+            </div>
+          ) : null
+        }
+
+        {
+          cookie.load("username") == null ? null : (
+            <div className='col-1 signUp headerCompo'>
+            <a href='/' onClick={this.signOut}>
+                <button className='btn signUpBtn btn-lg'>
+                  Sign Out
+                </button>
+              </a>
+            </div>
+          )
+        }
       </div>
     )
   }

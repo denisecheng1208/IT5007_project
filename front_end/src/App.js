@@ -9,19 +9,20 @@ import WelcomePage from './components/WelcomePage/WelcomePage.js'
 import { Routes, Route } from "react-router-dom";
 import AccountInfo from './components/AccountInfo/AccountInfo';
 import NewBlog from './components/NewBlog/NewBlog';
+import cookie from 'react-cookies'
 
 function App() {
   return (
     <div className="App">
       <Header />
       <Routes>
-        <Route path="/edit" element={<ContextEditor/>} />
+        <Route path="/edit" element={cookie.load("username") == null? <Login/> : <ContextEditor/>} />
         <Route path="/" element={<WelcomePage/>} />
         <Route path="/signUp" element={<Signup/>} />
         <Route path="/login" element={<Login/>} />
-        <Route path="/displayBlog" element={<ContextsDisplayerWrapper />} />
-        <Route path="/account" element={<AccountInfo />} />
-        <Route path="/newBlog" element={<NewBlog />} />
+        <Route path="/displayBlog" element={cookie.load("username") == null? <Login/> : <ContextsDisplayerWrapper />} />
+        <Route path="/account" element={cookie.load("username") == null? <Login/> : <AccountInfo />} />
+        <Route path="/newBlog" element={cookie.load("username") == null? <Login/> : <NewBlog />} />
       </Routes>
       <Footer />
     </div>
