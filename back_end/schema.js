@@ -51,7 +51,6 @@ const Blog = new GraphQLObjectType({
 const User = new GraphQLObjectType({
     name: 'user',
     fields: {
-        id: { type: GraphQLString },
         username: { type: GraphQLString },
         password: { type: GraphQLString },
         email: { type: GraphQLString },
