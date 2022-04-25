@@ -31,7 +31,7 @@ const Segment = new GraphQLObjectType({
     fields: {
         id: { type: GraphQLString },
         blogId: { type: GraphQLString },
-        userId: { type: GraphQLString },
+        username: { type: GraphQLString },
         context: { type: GraphQLString },
     }
 })
@@ -41,7 +41,7 @@ const Blog = new GraphQLObjectType({
     fields: {
         id: { type: GraphQLString },
         segments: { type: GraphQLList(Segment) },
-        userId: { type: GraphQLString },
+        username: { type: GraphQLString },
         title: { type: GraphQLString },
         type: { type: GraphQLString },
         publishDate: { type: GraphQLString  },
@@ -84,33 +84,25 @@ const RootQuery = new GraphQLObjectType({
             type: User,
             args: { username: { type: GraphQLNonNull(GraphQLString) } },
             async resolve(parent, args) {
-                // ??? 
-            }
-        },
-
-        findUserById: {
-            type: User,
-            args: { userId: { type: GraphQLNonNull(GraphQLString) } },
-            async resolve(parent, args) {
-                // ??? 
+                return await UserModel.findOne({username: args.username});
             }
         },
 
         // Segment
-        findSegmentByBlogId: {
+        findSegmentsByBlogId: {
             type: GraphQLList(Segment),
             args: { blogId: { type: GraphQLNonNull(GraphQLString) } },
             async resolve(parent, args) {
-                // ??? 
+                return await SegmentModel.find({blogId: args.blogId});
             }
         },
 
         // Blog
-        findAllBlogsByUserId: {
+        findAllBlogsByUserName: {
             type: new GraphQLList(Blog),
-            args: { userId: { type: GraphQLNonNull(GraphQLString) } },
+            args: { username: { type: GraphQLNonNull(GraphQLString) } },
             async resolve(parent, args) {
-                // ??? 
+                return await BlogModel.find({username: args.username});
             }
         },
 
@@ -151,33 +143,51 @@ const RootMutation = new GraphQLObjectType({
         updatePassword: {
             type: GraphQLBoolean,
             args: {
-                userId: { type: GraphQLNonNull(GraphQLString) },
+                username: { type: GraphQLNonNull(GraphQLString) },
                 newPassword: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve(parent, args) {
-                // ???
+                try{
+                    UserModel.updateOne({username: args.username}, {$set:{password: args.newPassword}}).then(result => null)
+                    return true
+                }catch(error){
+                    console.log(error)
+                    return false
+                }
             }
         },
 
         updateEmail: {
             type: GraphQLBoolean,
             args: {
-                userId: { type: GraphQLNonNull(GraphQLString) },
+                username: { type: GraphQLNonNull(GraphQLString) },
                 newEmail: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve(parent, args) {
-                // ???
+                try{
+                    UserModel.updateOne({username: args.username}, {$set:{email: args.newEmail}}).then(result => null)
+                    return true
+                }catch(error){
+                    console.log(error)
+                    return false
+                }
             }
         },
 
         updatePhone: {
             type: GraphQLBoolean,
             args: {
-                userId: { type: GraphQLNonNull(GraphQLString) },
+                username: { type: GraphQLNonNull(GraphQLString) },
                 newPhone: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve(parent, args) {
-                // ???
+                try{
+                    UserModel.updateOne({username: args.username}, {$set:{phone: args.newPhone}}).then(result => null)
+                    return true
+                }catch(error){
+                    console.log(error)
+                    return false
+                }
             }
         },
 
@@ -193,14 +203,20 @@ const RootMutation = new GraphQLObjectType({
 
         // Segment
         addSegment: {
-            type: Segment,
+            type: GraphQLBoolean,
             args: {
-                userId: { type: GraphQLNonNull(GraphQLString) },
+                username: { type: GraphQLNonNull(GraphQLString) },
                 blogId: { type: GraphQLNonNull(GraphQLString) },
                 context: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve(parent, args) {
-                // ???
+                try{
+                    SegmentModel.create(args).then(result => null)
+                    return true
+                }catch(error){
+                    console.log(error)
+                    return false
+                }
             }
         },
 
@@ -229,13 +245,22 @@ const RootMutation = new GraphQLObjectType({
         addBlog: {
             type: GraphQLBoolean,
             args: {
-                userId: { type: GraphQLNonNull(GraphQLString) },
-                segments: { type: GraphQLList(SegmentInput) },
+                username: { type: GraphQLNonNull(GraphQLString) },
                 title: { type: GraphQLNonNull(GraphQLString) },
                 type: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve(parent, args) {
-                // ???
+                try{
+                    var curDate = new Date();
+                    var mins = curDate.getMinutes() < 10 ? "0" + curDate.getMinutes() : curDate.getMinutes();
+                    var curTime = curDate.getFullYear() + '/' + (curDate.getMonth() + 1) + "/" + curDate.getDate() + " " + curDate.getHours() + ":" + mins;
+                    args = {...args, segments: [], publishDate: curTime};
+                    BlogModel.create(args).then(result => null);
+                    return true
+                }catch(error){
+                    console.log(error)
+                    return false
+                }
             }
         },
 

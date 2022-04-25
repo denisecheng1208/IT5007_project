@@ -20,7 +20,7 @@ const UserSchema = new Schema({
 const SegmentSchema = new Schema({
     id: ObjectId,
     blogId: ObjectId,
-    userId: ObjectId,
+    username: String,
     context: String,
 })
 
@@ -32,9 +32,10 @@ const BlogSchema = new Schema({
             ref: 'segment',
         }
     }],
-    userId: ObjectId,
+    username: String,
     title: String,
     type: String,
+    publishDate: String
 })
 
 const UserModel = mongoose.model('users', UserSchema)
