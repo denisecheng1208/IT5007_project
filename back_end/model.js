@@ -46,8 +46,7 @@ const BlogSchema = new Schema({
 const CommentSchema = new Schema({
     id: ObjectId,
     segmentId: String,
-    blogOwenerUsername: String,
-    commentOwenerUsername: String,
+    commentOwnerUsername: String,
     context: String,
     commentDate: String,
 })

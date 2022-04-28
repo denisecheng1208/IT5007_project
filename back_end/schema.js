@@ -1,6 +1,6 @@
 const graphql = require('graphql')
 const mongoose = require("mongoose")
-const { UserModel, SegmentModel, BlogModel } = require("./model")
+const { UserModel, SegmentModel, BlogModel, CommentModel } = require("./model")
 
 const {
     GraphQLObjectType,
@@ -33,8 +33,7 @@ const Comment = new GraphQLObjectType({
     fields: {
         id: { type: GraphQLString },
         segmentId: { type: GraphQLString },
-        blogOwenerUsername: { type: GraphQLString },
-        commentOwenerUsername: { type: GraphQLString },
+        commentOwnerUsername: { type: GraphQLString },
         context: { type: GraphQLString },
         commentDate: { type: GraphQLString }
     }
@@ -163,7 +162,20 @@ const RootQuery = new GraphQLObjectType({
             async resolve(parent, args) {
                 // ??? 
             }
-        }
+        },
+
+        // Comment
+        findCommentsBySegmentId: {
+            type: new GraphQLList(Comment),
+            args: { segmentId: { type: GraphQLNonNull(GraphQLString) } },
+            async resolve(parent, args) {
+                var ret = await CommentModel.find({segmentId: args.segmentId}).lean();
+                for(var i=0;i<ret.length;i++){
+                    ret[i].id = ret[i]._id.toString()
+                }
+                return ret
+            }
+        },
     }
 })
 
@@ -359,9 +371,9 @@ const RootMutation = new GraphQLObjectType({
         addComment: {
             type: GraphQLString,
             args: {
-                username: { type: GraphQLNonNull(GraphQLString) },
-                title: { type: GraphQLNonNull(GraphQLString) },
-                type: { type: GraphQLNonNull(GraphQLString) },
+                commentOwnerUsername: { type: GraphQLNonNull(GraphQLString) },
+                segmentId: { type: GraphQLNonNull(GraphQLString) },
+                context: { type: GraphQLNonNull(GraphQLString) },
             },
             async resolve(parent, args) {
                 try{
@@ -369,8 +381,8 @@ const RootMutation = new GraphQLObjectType({
                     var mins = curDate.getMinutes() < 10 ? "0" + curDate.getMinutes() : curDate.getMinutes();
                     var curTime = curDate.getFullYear() + '/' + (curDate.getMonth() + 1) + "/" + curDate.getDate() + " " + curDate.getHours() + ":" + mins;
                     var ret = null
-                    args = {...args, segments: [], publishDate: curTime};
-                    await BlogModel.create(args).then(result => {ret = result._id + ""});
+                    args = {...args, segments: [], commentDate: curTime};
+                    await CommentModel.create(args).then(result => {ret = result._id + ""});
                     return ret
                 }catch(error){
                     console.log(error)

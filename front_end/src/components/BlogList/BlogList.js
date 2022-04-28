@@ -24,6 +24,7 @@ export default class AccountInfo extends Component {
                 findAllBlogsByUserName(username: $username){
                     title
                     id
+                    username
                     publishDate
                 }
             }`

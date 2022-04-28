@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './CommentsDisplayer.css'
 import { ArrowRight, ArrowLeft } from 'react-bootstrap-icons';
+import cookie from 'react-cookies'
 
 export default class CommentsDisplayer extends Component {
 
@@ -12,41 +13,23 @@ export default class CommentsDisplayer extends Component {
             title: "",
             type: "",
         },
+        comments: { 0: [] },
+        segments: [],
+        commentsOnDisplay: this.props.commentsOnDisplay,
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.comments !== prevState.comments || nextProps.segments !== prevState.segments) {
+            return {
+                comments: nextProps.comments,
+                segments: nextProps.segments,
+            }
+        }
+        return null
     }
 
     componentDidMount = () => {
-        // this.loadData()
-        
-    }
 
-    loadData = () => {
-        async function getData(id){
-            var jsonData = {}
-            jsonData.query = `query FindSegmentByBlogId($blogId: String!){
-                findSegmentByBlogId(blogId: $blogId)
-            }`
-            jsonData.variables = {
-                blogId: id,
-            }
-            return await fetch("http://localhost:5000/graphql", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
-                body: JSON.stringify(jsonData),
-            }).catch(error => {
-                window.alert(error)
-                return
-            })
-        }
-
-        var response = getData(this.state.id)
-        response.then(promiseResult => {
-            return promiseResult.json()
-        }).then(result => {
-            this.setState({orders: result.data.getOrders, takenNumber: result.data.getOrders.length})
-        })
     }
 
     toggle = () => {
@@ -63,24 +46,25 @@ export default class CommentsDisplayer extends Component {
                             <ArrowRight />
                         </div>
                     </div>
+
                     <aside className="col-11">
                         <ul className="commentsList">
                             {
-                                this.props.comments[this.props.commentsOnDisplay].map((cur, idx) => {
+                                this.state.comments[this.props.commentsOnDisplay] == null ? null : this.state.comments[this.props.commentsOnDisplay].map((cur, idx) => {
                                     return (<li className="comment col-12" key={idx}>
                                         <div className="row col-12 commentorInfo">
                                             <div className='commentorPic col-3'>
-                                                <img src={cur.picture} />
+                                                <img src={cur.picture == null ? "https://pic3.zhimg.com/v2-58d652598269710fa67ec8d1c88d8f03_r.jpg?source=1940ef5c" : cur.picture} />
                                             </div>
                                             <div className='commentorName col-4'>
-                                                {cur.name}
+                                                {cur.commentOwnerUsername}
                                             </div>
                                             <div className='commentorDate col-5'>
-                                                {cur.timestamp}
+                                                {cur.commentDate}
                                             </div>
                                         </div>
                                         <div className="commentBody">
-                                            {cur.content}
+                                            {cur.context}
                                         </div>
                                     </li>)
                                 })
