@@ -43,12 +43,23 @@ const BlogSchema = new Schema({
     publishDate: String
 })
 
+const CommentSchema = new Schema({
+    id: ObjectId,
+    segmentId: String,
+    blogOwenerUsername: String,
+    commentOwenerUsername: String,
+    context: String,
+    commentDate: String,
+})
+
 const UserModel = mongoose.model('users', UserSchema)
 const SegmentModel = mongoose.model('segments', SegmentSchema)
 const BlogModel = mongoose.model('blogs', BlogSchema)
+const CommentModel = mongoose.model('comments', CommentSchema)
 
 module.exports={
     UserModel,
     SegmentModel,
     BlogModel,
+    CommentModel,
 };

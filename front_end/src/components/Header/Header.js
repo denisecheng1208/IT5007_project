@@ -43,14 +43,6 @@ export default class Header extends Component {
         </div>
 
         <div className='col-1 createBlogBtn headerCompo'>
-          <a href='/edit'>
-            <button className='btn'>
-              Edit Blog
-            </button>
-          </a>
-        </div>
-
-        <div className='col-1 createBlogBtn headerCompo'>
           <a href='/newBlog'>
             <button className='btn'>
               New Blog

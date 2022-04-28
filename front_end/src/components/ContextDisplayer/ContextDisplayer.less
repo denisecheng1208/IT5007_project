@@ -1,70 +1,92 @@
-div.title{
+div.title {
     margin-bottom: 2vw;
     padding: 1vw;
     background-color: rgba(13, 17, 23, 0.9);
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    span.titleDisplay{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    span.titleDisplay {
         font-size: 1vw;
         color: white;
     }
-    
-    span.type{
+
+    span.type {
         font-size: 1vw;
-        background-color: rgba(81,236,123,0.9);
+        background-color: rgba(81, 236, 123, 0.9);
         border-radius: 0.1vw;
     }
 }
 
-div.contextWrapper{
-    div.markDownContextWrapper{
+button.editBtn {
+    margin-top: 0.5vw;
+    margin-bottom: auto;
+    height: 2.5vw;
+    line-height: 100%;
+    font-size: 1vw;
+
+    &:focus,
+    &:active:focus,
+    &.active:focus,
+    &.focus,
+    &:active.focus,
+    &.active.focus {
+        outline: none;
+        box-shadow: none
+    }
+}
+
+div.contextWrapper {
+    div.markDownContextWrapper {
         justify-content: center;
         margin-top: 3vw;
         margin-bottom: 3vw;
-        .markDownContext{
+
+        .markDownContext {
             // text-align: left;
             // text-align: justify;
         }
 
-        div.ctrlBtn{
-            div.btnWrapper{
+        div.ctrlBtn {
+            div.btnWrapper {
                 height: 3vw;
                 margin-top: auto;
                 margin-bottom: auto;
-                button.showComment{
-                    outline: none !important; 
-                    box-shadow:none !important; 
 
-                    &:hover{
+                button.showComment {
+                    outline: none !important;
+                    box-shadow: none !important;
+
+                    &:hover {
                         border-style: solid;
                         border-color: black;
                     }
                 }
             }
-            
 
-            div.btnWrapper{
+
+            div.btnWrapper {
                 height: 3vw;
-                button.addComment{
-                    outline: none !important; 
-                    box-shadow:none !important; 
 
-                    &:hover{
+                button.addComment {
+                    outline: none !important;
+                    box-shadow: none !important;
+
+                    &:hover {
                         border-style: solid;
                         border-color: black;
                     }
                 }
             }
-            
+
         }
     }
-    
 }
 
-div.addCommentTab{
-    div{
+div.addCommentTab {
+    div {
         margin-top: auto;
-            margin-bottom: auto;
-        button.submitCommentBtn{
+        margin-bottom: auto;
+
+        button.submitCommentBtn {
             // height: 100%;
             margin-top: auto;
             margin-bottom: auto;
@@ -72,7 +94,8 @@ div.addCommentTab{
             border-color: black;
             border-width: 0.1vw;
             font-family: Arial, Helvetica, sans-serif;
-            &:hover{
+
+            &:hover {
                 border-width: 0.2vw;
                 font-weight: bold;
                 border-radius: 2vw;

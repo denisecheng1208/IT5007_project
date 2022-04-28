@@ -13,6 +13,22 @@ div.title span.type {
   background-color: rgba(81, 236, 123, 0.9);
   border-radius: 0.1vw;
 }
+button.editBtn {
+  margin-top: 0.5vw;
+  margin-bottom: auto;
+  height: 2.5vw;
+  line-height: 100%;
+  font-size: 1vw;
+}
+button.editBtn:focus,
+button.editBtn:active:focus,
+button.editBtn.active:focus,
+button.editBtn.focus,
+button.editBtn:active.focus,
+button.editBtn.active.focus {
+  outline: none;
+  box-shadow: none;
+}
 div.contextWrapper div.markDownContextWrapper {
   justify-content: center;
   margin-top: 3vw;

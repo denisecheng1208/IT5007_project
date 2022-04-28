@@ -23,6 +23,10 @@ export default class ContextDispalyer extends Component {
         return null
     }
 
+    onEdit = () => {
+        window.location.href = 'http://localhost:3000/edit'
+    }
+
     onContextClick = (idx) => {
         if (idx == this.props.commentsOnDisplay) {
             this.props.changeDisplayState({ displayComments: !this.props.displayComments })
@@ -39,14 +43,14 @@ export default class ContextDispalyer extends Component {
 
     render() {
         return (
-            <div className='Wrapper'>
+            <div className='Wrapper row'>
                 <div className="row offset-1 col-9 title">
-
                     <span className="col-8 titleDisplay" >{this.state.blog == null? "loading" : this.state.blog.title}</span>
                     <span className="offset-2 col-2 type">
                         <BookmarkCheck/>&nbsp;&nbsp;&nbsp;{this.state.blog == null? "loading" : this.state.blog.type}
                     </span>
                 </div>
+                <button className='editBtn offset-1 col-1 btn btn-warning' onClick={this.onEdit}>Edit</button>
                 <div className="offset-1 col-10 contextWrapper">
                     {
                         this.state.segments == null? "loading" : this.state.segments.map((val, idx) => {

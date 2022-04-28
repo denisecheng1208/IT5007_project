@@ -28,6 +28,18 @@ const SegmentInput = new GraphQLInputObjectType({
     }
 })
 
+const Comment = new GraphQLObjectType({
+    name: 'comment',
+    fields: {
+        id: { type: GraphQLString },
+        segmentId: { type: GraphQLString },
+        blogOwenerUsername: { type: GraphQLString },
+        commentOwenerUsername: { type: GraphQLString },
+        context: { type: GraphQLString },
+        commentDate: { type: GraphQLString }
+    }
+})
+
 const Segment = new GraphQLObjectType({
     name: 'segment',
     fields: {
@@ -329,7 +341,31 @@ const RootMutation = new GraphQLObjectType({
             resolve(parent, args) {
                 // ???
             }
-        }
+        },
+
+        // Comment
+        addComment: {
+            type: GraphQLString,
+            args: {
+                username: { type: GraphQLNonNull(GraphQLString) },
+                title: { type: GraphQLNonNull(GraphQLString) },
+                type: { type: GraphQLNonNull(GraphQLString) },
+            },
+            async resolve(parent, args) {
+                try{
+                    var curDate = new Date();
+                    var mins = curDate.getMinutes() < 10 ? "0" + curDate.getMinutes() : curDate.getMinutes();
+                    var curTime = curDate.getFullYear() + '/' + (curDate.getMonth() + 1) + "/" + curDate.getDate() + " " + curDate.getHours() + ":" + mins;
+                    var ret = null
+                    args = {...args, segments: [], publishDate: curTime};
+                    await BlogModel.create(args).then(result => {ret = result._id + ""});
+                    return ret
+                }catch(error){
+                    console.log(error)
+                    return null
+                }
+            }
+        },
     }
 })
 
