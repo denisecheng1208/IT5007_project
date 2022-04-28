@@ -135,6 +135,18 @@ const RootQuery = new GraphQLObjectType({
             }
         },
 
+        findBlogsByType: {
+            type: new GraphQLList(Blog),
+            args: { blogType: { type: GraphQLNonNull(GraphQLString) } },
+            async resolve(parent, args) {
+                var ret = await BlogModel.find({type: args.blogType}).lean();
+                for(var i=0;i<ret.length;i++){
+                    ret[i].id = ret[i]._id.toString()
+                }
+                return ret
+            }
+        },
+
         findBlogById: {
             type: Blog,
             args: { blogId: { type: GraphQLNonNull(GraphQLString) } },

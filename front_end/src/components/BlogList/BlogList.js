@@ -58,7 +58,6 @@ export default class AccountInfo extends Component {
     }
 
     displayBlog = (blogId) => {
-        console.log(this.state.blogs)
         cookie.save("blogIdOnDisplay", blogId)
         window.location.href = "http://localhost:3000/blogDetail"
     }

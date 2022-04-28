@@ -1,58 +1,12 @@
 import React, { Component } from 'react'
 import './WelcomePage.css'
 import { ListStars, FileEarmarkText } from 'react-bootstrap-icons'
-
-
-const initialDocs1 = [
-    {
-       id: 1, owner: 'Ravan', created: new Date('2018-08-15'), 
-       title: 'HTML tutorial', type: 1,
-    },
-    {
-        id: 2, owner: 'Emma', created: new Date('2018-08-16'), 
-        title: 'CSS tutorial', type: 1,
-    },
-    {
-        id: 3, owner: 'Ella', created: new Date('2018-08-17'), 
-        title: 'React tutorial', type: 1,
-    },
-    {
-        id: 4, owner: 'Bob', created: new Date('2018-08-18'), 
-        title: 'Angular tutorial', type: 1,
-    },
-    {
-        id: 5, owner: 'Lily', created: new Date('2018-08-19'), 
-        title: 'Vue tutorial', type: 1,
-    },
-];
-
-const initialDocs2 = [
-    {
-        id: 6, owner: 'Bob', created: new Date('2018-08-17'), 
-        title: 'JAVA tutorial', type: 2,
-    },
-    {
-        id: 7, owner: 'Mona', created: new Date('2018-08-18'), 
-        title: 'MongoDB tutorial', type: 2,
-    },
-    {
-        id: 8, owner: 'ChengXin', created: new Date('2018-08-19'), 
-        title: 'Python tutorial', type: 2,
-    },
-    {
-        id: 9, owner: 'ShiZheng', created: new Date('2018-08-20'), 
-        title: 'C++ tutorial', type: 2,
-    },
-    {
-        id: 10, owner: 'PonyMa', created: new Date('2018-08-21'), 
-        title: 'Golong tutorial', type: 2,
-    },
-];
+import cookie from 'react-cookies'
 
 export default class WelcomePage extends Component {
     state = {
-        docs1 : [],
-        docs2 : [],
+        front_end_blogs: [],
+        back_end_blogs: []
     }
 
     componentDidMount() {
@@ -60,18 +14,65 @@ export default class WelcomePage extends Component {
     }
 
     loadData() {
-        this.setState({docs1: initialDocs1, docs2: initialDocs2});
+        async function findBlogs(blogType) {
+            var jsonData = {}
+            jsonData.query = `query FindBlogsByType($blogType: String!){
+                findBlogsByType(blogType: $blogType){
+                    title
+                    id
+                    username
+                    publishDate
+                }
+            }`
+            jsonData.variables = {
+                blogType: blogType,
+            }
+            return await fetch("http://localhost:5000/graphql", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify(jsonData),
+            }).catch(error => {
+                window.alert(error)
+                return
+            })
+        }
+
+        var response_front = findBlogs("Front_End")
+        var response_back = findBlogs("Back_End")
+
+        response_front.then(result => {
+            if (result.ok) {
+                return result.json()
+            } else {
+                alert("Error!")
+                return null;
+            }
+        }).then(result => {
+            this.setState({front_end_blogs: result.data.findBlogsByType})
+        })
+
+        response_back.then(result => {
+            if (result.ok) {
+                return result.json()
+            } else {
+                alert("Error!")
+                return null;
+            }
+        }).then(result => {
+            this.setState({back_end_blogs: result.data.findBlogsByType})
+        })
+    }
+
+    displayBlog = (blogId) => {
+        cookie.save("blogIdOnDisplay", blogId)
+        window.location.href = "http://localhost:3000/blogDetail"
     }
 
     render() {
-        const docs1List = this.state.docs1.map(d =>
-            <li key={d.id}> {d.title} </li>
-        );
-
-        const docs2List = this.state.docs2.map(d =>
-            <li key={d.id}> {d.title} </li>
-        );
-
+    
         return (
             <div className="row wrapper">
                 <div className='col-12 welcome'>Welcome to TechForum !</div>
@@ -83,18 +84,18 @@ export default class WelcomePage extends Component {
 
                     <ul className="col-10 offset-1 blockList">
                     {
-                        this.state.docs1.map( d => {
+                        this.state.front_end_blogs.map( d => {
                             return (
                             <li key={d.id} className="block row">
                                 <FileEarmarkText className='col-1'/>
-                                <div className="col-7">
+                                <div className="btn col-7" onClick={ () => this.displayBlog(d.id)} >
                                     {d.title}
                                 </div>
-                                <div className="col-2">
-                                    {d.created.toLocaleDateString()}
+                                <div className="col-3">
+                                    {d.publishDate}
                                 </div>
-                                <div className="col-2">
-                                    {d.owner}
+                                <div className="col-1">
+                                    {d.username}
                                 </div>
                             </li>)
                         })
@@ -109,18 +110,18 @@ export default class WelcomePage extends Component {
 
                     <ul className="col-10 offset-1 blockList">
                     {
-                        this.state.docs2.map( d => {
+                        this.state.back_end_blogs.map( d => {
                             return (
                             <li key={d.id} className="block row">
                                 <FileEarmarkText className='col-1'/>
-                                <div className="col-7">
+                                <div className="btn col-7" onClick={ () => this.displayBlog(d.id)}>
                                     {d.title}
                                 </div>
-                                <div className="col-2">
-                                    {d.created.toLocaleDateString()}
+                                <div className="col-3">
+                                    {d.publishDate}
                                 </div>
-                                <div className="col-2">
-                                    {d.owner}
+                                <div className="col-1">
+                                    {d.username}
                                 </div>
                             </li>)
                         })
