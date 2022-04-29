@@ -6,10 +6,11 @@ import cookie from 'react-cookies'
 export default class ContextEditor extends Component {
   state = {
     userId: "",
-    title: "test",
-    type: "Back_End",
+    title: "",
+    type: "",
     blog: {},
     segments: [],
+    toRemove: [],
   }
 
   componentDidMount = () => {
@@ -55,7 +56,9 @@ export default class ContextEditor extends Component {
       }
     }).then(result => {
       this.setState({
-        blog: result.data.findBlogById
+        blog: result.data.findBlogById,
+        title: result.data.findBlogById.title,
+        type: result.data.findBlogById.type,
       })
     })
   }
@@ -110,21 +113,60 @@ export default class ContextEditor extends Component {
 
   addNewEditor = () => {
     var cur = this.state.segments
-    var newVal = [...cur, {context: "", sequence: cur.length}]
+    var newVal = [...cur, { context: "", sequence: cur.length }]
     this.setState({ segments: newVal })
   }
 
   submit = () => {
-    async function addBlog(username, segments, title, type) {
+    async function deleteSegment(segmentId) {
       var jsonData = {};
-      jsonData.query = `mutation AddBlog($username: String!, $segments: String!, $title: String!, $type: String!){
-            addBlog(username: $username, segments: $segments, title: $title, type: $type)
+      jsonData.query = `mutation DeleteSegment($segmentId: String!){
+        deleteSegment(segmentId: $segmentId)
           }`;
       jsonData.variables = {
-        username: username,
-        segments: segments,
-        title: title,
-        type: type,
+        segmentId: segmentId,
+      };
+      return await fetch("http://localhost:5000/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      }).catch(error => {
+        window.alert(error)
+        return
+      });
+    }
+
+    async function updateBlogTitle(blogId, newTitle) {
+      var jsonData = {};
+      jsonData.query = `mutation UpdateBlogTitle($blogId: String!, $newTitle: String!){
+          updateBlogTitle(blogId: $blogId, newTitle: $newTitle)
+          }`;
+      jsonData.variables = {
+        blogId: blogId,
+        newTitle: newTitle,
+      };
+      return await fetch("http://localhost:5000/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      }).catch(error => {
+        window.alert(error)
+        return
+      });
+    }
+
+    async function updateBlogType(blogId, newType) {
+      var jsonData = {};
+      jsonData.query = `mutation UpdateBlogType($blogId: String!, $newType: String!){
+          updateBlogType(blogId: $blogId, newType: $newType)
+          }`;
+      jsonData.variables = {
+        blogId: blogId,
+        newType: newType,
       };
       return await fetch("http://localhost:5000/graphql", {
         method: "POST",
@@ -161,36 +203,97 @@ export default class ContextEditor extends Component {
       });
     }
 
-    var response = addBlog(this.state.username, this.state.title, this.state.type)
+    async function updateSegment(segmentId, segmentContext) {
+      var jsonData = {};
+      jsonData.query = `mutation UpdateSegment($segmentId: String!, $segmentContext: String!){
+        updateSegment(segmentId: $segmentId, segmentContext: $segmentContext)
+          }`;
+      jsonData.variables = {
+        segmentId: segmentId,
+        segmentContext: segmentContext,
 
-    response.then(result => {
+      };
+      return await fetch("http://localhost:5000/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      }).catch(error => {
+        window.alert(error)
+        return
+      });
+    }
+
+    updateBlogTitle(cookie.load("blogIdOnDisplay"), this.state.title)
+    .then(result => {
       if (result.ok) {
-        alert("Success!")
+        return true
       } else {
         alert("Error!")
       }
+    }).then(result => {
+      updateBlogType(cookie.load("blogIdOnDisplay"), this.state.type)
+      .then(result => {
+        if (result.ok) {
+          return true
+        } else {
+          alert("Error!")
+        }
+      })
+    }).then(result => {
+      for(var i=0;i<this.state.segments.length;i++){
+        if(this.state.segments[i].id != null){
+          updateSegment(this.state.segments[i].id, this.state.segments[i].context)
+          .then(result => {
+            if (result.ok) {
+              return true
+            } else {
+              alert("Error!")
+            }
+          })
+        }else{
+          // addSegment(username, blogId, context, sequence)
+          addSegment(cookie.load("username"), cookie.load("blogIdOnDisplay"), this.state.segments[i].context, i)
+          .then(result => {
+            if (result.ok) {
+              return true
+            } else {
+              alert("Error!")
+            }
+          })
+        }
+      }
+    }).then(result => {
+      for(var j=0;j<this.state.toRemove.length;j++){
+        deleteSegment(this.state.toRemove[j])
+        .then(result => {
+          if (result.ok) {
+            return true
+          } else {
+            alert("Error!")
+          }
+        })
+      }
+    }).then(result => {
+      window.location.href = "http://localhost:3000/blogDetail"
     })
   }
 
   removeEditor = (target) => {
     var newVal = this.state.segments.filter((val, idx) => idx != target)
-    this.setState({ segments: newVal })
-  }
-
-  onTypeChange = (event) => {
-    this.setState({ type: event.target.value })
+    this.setState({ segments: newVal, toRemove: [...this.state.toRemove, this.state.segments[target].id] })
   }
 
   render() {
     return (
       <div className='contextContainer col-10 offset-1'>
-        <div className="row offset-1 col-10">
-          <label className="col-8">Title: </label>
-          <label className="offset-2 col-2">Blog Type: </label>
-        </div>
         <div className="row offset-1 col-10 title">
-          <input className="col-8 titleInput" type='text' defaultValue={this.state.blog == null ? "loading" : this.state.blog.title} onChange={(val) => { this.setState({ title: val }) }}></input>
-          <select onChange={(val) => this.onTypeChange(val)} defaultValue={this.state.blog == null ? "loading" : this.state.blog.type} className="offset-2 col-2 type">
+          <div className="row col-8 titleWrapper">
+            <span className="col-1">Title:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input className="col-11 titleInput" type='text' defaultValue={this.state.blog == null ? "loading" : this.state.blog.title} onChange={(event) => { this.setState({ title: event.target.value }) }}></input>
+          </div>
+          <select onChange={(event) => this.setState({type: event.target.value})} value={this.state.type} className="offset-2 col-2 type">
             <option value={"Front_End"}>Front End</option>
             <option value={"Back_End"}>Back End</option>
           </select>

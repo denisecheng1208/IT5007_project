@@ -21,11 +21,10 @@ export default class AccountInfo extends Component {
     }
 
     componentDidMount = () => {
-        this.loadDataForUser()
-        this.loadDataForBlogs()
+        this.loadData()
     }
 
-    loadDataForUser = () => {
+    loadData = () => {
         async function findUserByUsername(username) {
             var jsonData = {}
             jsonData.query = `query FindUserByUsername($username: String!){
@@ -39,6 +38,31 @@ export default class AccountInfo extends Component {
                         title
                         publishDate
                     }
+                }
+            }`
+            jsonData.variables = {
+                username: username,
+            }
+            return await fetch("http://localhost:5000/graphql", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify(jsonData),
+            }).catch(error => {
+                window.alert(error)
+                return
+            })
+        }
+
+        async function findBlogs(username) {
+            var jsonData = {}
+            jsonData.query = `query FindAllBlogsByUserName($username: String!){
+                findAllBlogsByUserName(username: $username){
+                    title
+                    id
+                    publishDate
                 }
             }`
             jsonData.variables = {
@@ -74,46 +98,19 @@ export default class AccountInfo extends Component {
                 phone: dbResult.phone,
                 email: dbResult.email,
             })
-        })
-    }
-
-    loadDataForBlogs = () => {
-        async function findBlogs(username) {
-            var jsonData = {}
-            jsonData.query = `query FindAllBlogsByUserName($username: String!){
-                findAllBlogsByUserName(username: $username){
-                    title
-                    id
-                    publishDate
-                }
-            }`
-            jsonData.variables = {
-                username: username,
-            }
-            return await fetch("http://localhost:5000/graphql", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
-                body: JSON.stringify(jsonData),
-            }).catch(error => {
-                window.alert(error)
-                return
-            })
-        }
-
-        var response = findBlogs(cookie.load("username"))
-
-        response.then(result => {
-            if (result.ok) {
-                return result.json()
-            } else {
-                alert("Error!")
-                return null;
-            }
         }).then(result => {
-            this.setState({blogs: result.data.findAllBlogsByUserName})
+            var responseBlogs = findBlogs(cookie.load("username"))
+
+            responseBlogs.then(result => {
+                if (result.ok) {
+                    return result.json()
+                } else {
+                    alert("Error!")
+                    return null;
+                }
+            }).then(result => {
+                this.setState({ blogs: result.data.findAllBlogsByUserName })
+            })
         })
     }
 
@@ -154,7 +151,7 @@ export default class AccountInfo extends Component {
                 if (result.ok) {
                     alert("Success!")
                     cookie.remove("username")
-                    window.location.href="http://localhost:3000/"
+                    window.location.href = "http://localhost:3000/"
                 } else {
                     alert("Error!")
                 }
