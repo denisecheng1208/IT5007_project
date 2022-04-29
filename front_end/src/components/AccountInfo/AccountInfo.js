@@ -293,7 +293,7 @@ export default class AccountInfo extends Component {
                             <div className="col-4 password">
                                 <button className="btn changePassword" onClick={this.onChangePassword}> {this.state.passwordChange ? "Submit" : "Change Password"} </button>
                                 &nbsp;&nbsp;&nbsp;
-                                {this.state.passwordChange ? <button className="btn btnCancle" onClick={() => this.setState({ passwordChange: false })}>Cancel</button> : null}
+                                {this.state.passwordChange ? <button className="btn btnCancle" onClick={() => {this.setState({ passwordChange: false }); window.location.reload()}}>Cancel</button> : null}
                             </div>
                             {
                                 this.state.passwordChange ?
@@ -323,7 +323,7 @@ export default class AccountInfo extends Component {
                                 <button className='btn' onClick={this.onPhoneChange}>{this.state.phoneChange ? "Submit" : "Change"}</button>
                                 &nbsp;&nbsp;&nbsp;
                                 {
-                                    this.state.phoneChange ? <button className="btn canclePhone" onClick={() => this.setState({ phoneChange: false })}>Cancel</button> : null
+                                    this.state.phoneChange ? <button className="btn canclePhone" onClick={() => {this.setState({ phoneChange: false }); window.location.reload()}}>Cancel</button> : null
                                 }
                             </div>
                             <div className="email col-12">
@@ -339,7 +339,7 @@ export default class AccountInfo extends Component {
                                 <button className='btn' onClick={this.onEmailChange}>{this.state.emailChange ? "Submit" : "Change"}</button>
                                 &nbsp;&nbsp;&nbsp;
                                 {
-                                    this.state.emailChange ? <button className="btn cancleEmail" onClick={() => this.setState({ emailChange: false })}>Cancel</button> : null
+                                    this.state.emailChange ? <button className="btn cancleEmail" onClick={() => {this.setState({ emailChange: false }); window.location.reload()}}>Cancel</button> : null
                                 }
                             </div>
                         </li>
