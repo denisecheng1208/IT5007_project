@@ -1,15 +1,14 @@
 div.title {
   margin-bottom: 2vw;
   padding: 1vw;
-  background-color: rgba(13, 17, 23, 0.9);
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 div.title span.titleDisplay {
   font-size: 1vw;
-  color: white;
+  text-align: center;
 }
 div.title span.type {
   font-size: 1vw;
+  height: 2.5vw;
   background-color: rgba(81, 236, 123, 0.9);
   border-radius: 0.1vw;
 }

@@ -82,7 +82,7 @@ export default class ContextDispalyer extends Component {
         return (
             <div className='Wrapper row'>
                 <div className="row offset-1 col-9 title">
-                    <span className="col-8 titleDisplay" >{this.state.blog == null ? "loading" : "Title: " + this.state.blog.title}</span>
+                    <h1 className="col-8" >{this.state.blog == null ? "loading" : this.state.blog.title}</h1>
                     <span className="offset-2 col-2 type">
                         <BookmarkCheck />&nbsp;&nbsp;&nbsp;{this.state.blog == null ? "loading" : this.state.blog.type}
                     </span>

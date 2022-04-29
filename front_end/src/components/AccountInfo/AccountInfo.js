@@ -188,6 +188,13 @@ export default class AccountInfo extends Component {
                 })
             }
 
+            var phonePatt = /^[0-9]+$/;
+
+            if (!phonePatt.test(this.state.phone)) {
+                alert("Invalid Phone!");
+                return;
+            }
+
             var user = {
                 username: this.state.username,
                 phone: this.state.phone,
@@ -234,6 +241,13 @@ export default class AccountInfo extends Component {
                     window.alert(error)
                     return
                 })
+            }
+
+            var emailPatt = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/;
+
+            if (!emailPatt.test(this.state.email)) {
+                alert("Invalid Email!");
+                return;
             }
 
             var user = {
