@@ -4,6 +4,14 @@ import { Search } from 'react-bootstrap-icons';
 import cookie from 'react-cookies'
 
 export default class Header extends Component {
+  state = {
+    keyword: ""
+  }
+
+  search = () => {
+    cookie.save("keyword", this.state.keyword)
+    window.location.href = "http://localhost:3000/searchResult"
+  }
 
   signOut = () => {
     cookie.remove("username")
@@ -51,8 +59,8 @@ export default class Header extends Component {
         </div>
 
         <div className='offset-1 col-3 search headerCompo'>
-          <input placeholder="Search now!"></input> &nbsp;
-          <button className="searchBtn btn btn-default btn-lg">
+          <input placeholder="Search now!" onChange={(event) => this.setState({keyword: event.target.value})}></input> &nbsp;
+          <button className="searchBtn btn btn-default btn-lg" onClick={this.search}>
             <Search color="black" size={25} />
           </button>
         </div>

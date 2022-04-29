@@ -160,7 +160,12 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(Blog),
             args: { keyword: { type: GraphQLNonNull(GraphQLString) } },
             async resolve(parent, args) {
-                // ??? 
+                var reg = new RegExp(args.keyword, 'i')
+                var ret = await BlogModel.find({title: {$regex: reg}})
+                for(var i=0;i<ret.length;i++){
+                    ret[i].id = ret[i]._id.toString()
+                }
+                return ret
             }
         },
 

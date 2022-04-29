@@ -105,7 +105,7 @@ export default class NewBlog extends Component {
         <div className="row offset-1 col-10 title">
           <div className="row col-8 titleWrapper">
             <span className="col-1">Title:&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <input className="col-11 titleInput" type='text' defaultValue={this.state.blog == null ? "loading" : this.state.blog.title} onChange={(event) => { this.setState({ title: event.target.value }) }}></input>
+            <input className="col-11 titleInput" type='text' defaultValue={""} onChange={(event) => { this.setState({ title: event.target.value }) }}></input>
           </div>
           <select onChange={(val) => this.onTypeChange(val)
           } defaultValue={this.state.type} className="offset-2 col-2 type">

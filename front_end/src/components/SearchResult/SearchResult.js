@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import './BlogList.css'
+import './SearchResult.css'
 import { PersonLinesFill, ListStars, FileEarmarkText, Phone, Envelope } from 'react-bootstrap-icons'
 import { Routes, Route } from "react-router-dom";
 import cookie from 'react-cookies'
 
-export default class BlogList extends Component {
+export default class SearchResult extends Component {
     state = {
         blogs: [{ title: "Coding with C++", time: "2012-12-05" },
         { title: "Coding with Java", time: "2022-03-15" },
@@ -18,10 +18,10 @@ export default class BlogList extends Component {
     }
 
     loadDataForBlogs = () => {
-        async function findBlogs(username) {
+        async function findBlogsByKeyword(keyword) {
             var jsonData = {}
-            jsonData.query = `query FindAllBlogsByUserName($username: String!){
-                findAllBlogsByUserName(username: $username){
+            jsonData.query = `query FindBlogsByKeyword($keyword: String!){
+                findBlogsByKeyword(keyword: $keyword){
                     title
                     id
                     username
@@ -29,7 +29,7 @@ export default class BlogList extends Component {
                 }
             }`
             jsonData.variables = {
-                username: username,
+                keyword: keyword,
             }
             return await fetch("http://localhost:5000/graphql", {
                 method: "POST",
@@ -44,7 +44,7 @@ export default class BlogList extends Component {
             })
         }
 
-        var response = findBlogs(cookie.load("username"))
+        var response = findBlogsByKeyword(cookie.load("keyword"))
 
         response.then(result => {
             if (result.ok) {
@@ -54,7 +54,7 @@ export default class BlogList extends Component {
                 return null;
             }
         }).then(result => {
-            this.setState({ blogs: result.data.findAllBlogsByUserName })
+            this.setState({ blogs: result.data.findBlogsByKeyword })
         })
     }
 
@@ -66,15 +66,14 @@ export default class BlogList extends Component {
     render() {
         return (
             <div className="row wrapper">
-
                 <div className='row offset-3 col-6 blogs'>
                     <div className='col-12 colorBar'>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ListStars />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;My Blogs
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ListStars />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Results
                     </div>
 
                     <ul className="col-10 offset-1 blogList">
                         {
-                            this.state.blogs.map((cur, idx) => {
+                            this.state.blogs == null? null : this.state.blogs.map((cur, idx) => {
                                 return (<li key={idx} className="blog row">
                                     <FileEarmarkText className='col-1' />
                                     <div className="col-8 btn" onClick={ () => this.displayBlog(cur.id) }>

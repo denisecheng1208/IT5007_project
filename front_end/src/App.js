@@ -11,6 +11,7 @@ import AccountInfo from './components/AccountInfo/AccountInfo';
 import NewBlog from './components/NewBlog/NewBlog';
 import cookie from 'react-cookies'
 import BlogList from './components/BlogList/BlogList'
+import SearchResult from './components/SearchResult/SearchResult';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/account" element={cookie.load("username") == null? <Login/> : <AccountInfo />} />
         <Route path="/newBlog" element={cookie.load("username") == null? <Login/> : <NewBlog />} />
         <Route path="/blogDetail" element={cookie.load("username") == null? <Login/> : <ContextsDisplayerWrapper />} />
+        <Route path="/searchResult" element={ <SearchResult/> } />
       </Routes>
       <Footer />
     </div>
