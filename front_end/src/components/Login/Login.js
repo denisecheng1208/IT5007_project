@@ -45,7 +45,7 @@ export default class Login extends Component {
                     document.forms.login.username.value = "";
                     document.forms.login.password.value = "";
 
-                    alert("Login up successfully!");
+                    alert("Login successfully!");
                     cookie.save('username', user.username, { path: '/' });
                     // route to welcome page
                     window.location.href = '/';

@@ -184,6 +184,10 @@ export default class ContextEditor extends Component {
   render() {
     return (
       <div className='contextContainer col-10 offset-1'>
+        <div className="row offset-1 col-10">
+          <label className="col-8">Title: </label>
+          <label className="offset-2 col-2">Blog Type: </label>
+        </div>
         <div className="row offset-1 col-10 title">
           <input className="col-8 titleInput" type='text' defaultValue={this.state.blog == null ? "loading" : this.state.blog.title} onChange={(val) => { this.setState({ title: val }) }}></input>
           <select onChange={(val) => this.onTypeChange(val)} defaultValue={this.state.blog == null ? "loading" : this.state.blog.type} className="offset-2 col-2 type">

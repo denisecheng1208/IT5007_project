@@ -279,9 +279,9 @@ const RootMutation = new GraphQLObjectType({
                 context: { type: GraphQLNonNull(GraphQLString) },
                 sequence: { type: GraphQLNonNull(GraphQLInt) },
             },
-            resolve(parent, args) {
+            async resolve(parent, args) {
                 try{
-                    SegmentModel.create(args).then(result => null)
+                    await SegmentModel.create(args).then(result => null)
                     return true
                 }catch(error){
                     console.log(error)
@@ -295,19 +295,31 @@ const RootMutation = new GraphQLObjectType({
             args: {
                 segmentId: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
-                // ???
+            async resolve(parent, args) {
+                try {
+                    await SegmentModel.deleteOne({ _id: mongoose.Types.ObjectId(args.segmentId) }).lean();
+                    return true
+                } catch (e) {
+                    console.log(e)
+                    return false
+                }
             }
         },
 
         updateSegment: {
-            type: Segment,
+            type: GraphQLBoolean,
             args: {
                 segmentId: { type: GraphQLNonNull(GraphQLString) },
                 segmentContext: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
-                // ???
+            async resolve(parent, args) {
+                try {
+                    await SegmentModel.updateOne({ _id: mongoose.Types.ObjectId(args.segmentId) }, { context: args.segmentContext }).lean();
+                    return true
+                } catch (e) {
+                    console.log(e)
+                    return false
+                }
             }
         },
 
@@ -338,32 +350,50 @@ const RootMutation = new GraphQLObjectType({
         deleteBlog: {
             type: GraphQLBoolean,
             args: {
-                blogId: { type: GraphQLList(SegmentInput) },
+                blogId: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
-                // ???
+            async resolve(parent, args) {
+                try {
+                    await BlogModel.deleteOne({ _id: mongoose.Types.ObjectId(args.blogId) }).lean();
+                    return true
+                } catch (e) {
+                    console.log(e)
+                    return false
+                }
             }
         },
 
         updateBlogTitle: {
-            type: Blog,
+            type: GraphQLBoolean,
             args: {
                 blogId: { type: GraphQLNonNull(GraphQLString) },
                 newTitle: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
-                // ???
+            async resolve(parent, args) {
+                try {
+                    await BlogModel.updateOne({ _id: mongoose.Types.ObjectId(args.blogId) }, { title: args.newTitle }).lean();
+                    return true
+                } catch (e) {
+                    console.log(e)
+                    return false
+                }
             }
         },
 
         updateBlogType: {
-            type: Blog,
+            type: GraphQLBoolean,
             args: {
                 blogId: { type: GraphQLNonNull(GraphQLString) },
                 newType: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
-                // ???
+            async resolve(parent, args) {
+                try {
+                    await BlogModel.updateOne({ _id: mongoose.Types.ObjectId(args.blogId) }, { type: args.newType }).lean();
+                    return true
+                } catch (e) {
+                    console.log(e)
+                    return false
+                }
             }
         },
 
