@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './ContextEditor.css'
 import MDEditor, { commands, ICommand } from '@uiw/react-md-editor';
 import cookie from 'react-cookies'
+import { ip } from '../../const';
 
 export default class ContextEditor extends Component {
   state = {
@@ -32,7 +33,7 @@ export default class ContextEditor extends Component {
       jsonData.variables = {
         blogId: blogId,
       }
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +77,7 @@ export default class ContextEditor extends Component {
       jsonData.variables = {
         blogId: blogId,
       }
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +127,7 @@ export default class ContextEditor extends Component {
       jsonData.variables = {
         segmentId: segmentId,
       };
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -147,7 +148,7 @@ export default class ContextEditor extends Component {
         blogId: blogId,
         newTitle: newTitle,
       };
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -168,7 +169,7 @@ export default class ContextEditor extends Component {
         blogId: blogId,
         newType: newType,
       };
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -191,7 +192,7 @@ export default class ContextEditor extends Component {
         context: context,
         sequence: sequence,
       };
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -213,7 +214,7 @@ export default class ContextEditor extends Component {
         segmentContext: segmentContext,
 
       };
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -276,7 +277,7 @@ export default class ContextEditor extends Component {
         })
       }
     }).then(result => {
-      window.location.href = "http://localhost:3000/blogDetail"
+      window.location.href = "http://" + ip + ":3000/blogDetail"
     })
   }
 

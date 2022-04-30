@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Footer.css';
+import { ip } from '../../const';
 
 export default class Footer extends Component {
   render() {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Signup.css'
+import { ip } from '../../const';
 
 export default class Signup extends Component {
     submitSignup(e) {
@@ -16,7 +17,7 @@ export default class Signup extends Component {
                 phone: user.phone,
                 email: user.email
             };
-            return await fetch("http://localhost:5000/graphql", {
+            return await fetch("http://" + ip + ":5000/graphql", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -66,7 +67,7 @@ export default class Signup extends Component {
                 }
             });
         }
-        window.location.href = "http://localhost:3000/"
+        window.location.href = "http://" + ip + ":3000/"
     }
 
     render() {

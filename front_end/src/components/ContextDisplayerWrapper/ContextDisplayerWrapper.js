@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import CommentsDisplayer from '../CommentsDisplayer/CommentsDisplayer'
 import ContextDispalyer from '../ContextDisplayer/ContextDispalyer'
 import cookie from 'react-cookies'
+import { ip } from '../../const';
 
 export default class ContextsDisplayerWrapper extends Component {
   state = {
@@ -30,7 +31,7 @@ export default class ContextsDisplayerWrapper extends Component {
       jsonData.variables = {
         segmentId: segmentId,
       }
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,7 +56,7 @@ export default class ContextsDisplayerWrapper extends Component {
       jsonData.variables = {
         blogId: blogId,
       }
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +115,7 @@ export default class ContextsDisplayerWrapper extends Component {
       jsonData.variables = {
         blogId: blogId,
       }
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

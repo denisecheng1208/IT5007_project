@@ -3,6 +3,7 @@ import './BlogList.css'
 import { PersonLinesFill, ListStars, FileEarmarkText, Phone, Envelope } from 'react-bootstrap-icons'
 import { Routes, Route } from "react-router-dom";
 import cookie from 'react-cookies'
+import { ip } from '../../const';
 
 export default class BlogList extends Component {
     state = {
@@ -31,7 +32,7 @@ export default class BlogList extends Component {
             jsonData.variables = {
                 username: username,
             }
-            return await fetch("http://localhost:5000/graphql", {
+            return await fetch("http://" + ip + ":5000/graphql", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -60,7 +61,7 @@ export default class BlogList extends Component {
 
     displayBlog = (blogId) => {
         cookie.save("blogIdOnDisplay", blogId)
-        window.location.href = "http://localhost:3000/blogDetail"
+        window.location.href = "http://" + ip + ":3000/blogDetail" 
     }
 
     render() {

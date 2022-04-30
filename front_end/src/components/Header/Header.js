@@ -2,6 +2,7 @@ import './Header.css';
 import React, { Component } from 'react'
 import { Search } from 'react-bootstrap-icons';
 import cookie from 'react-cookies'
+import { ip } from '../../const';
 
 export default class Header extends Component {
   state = {
@@ -10,7 +11,7 @@ export default class Header extends Component {
 
   search = () => {
     cookie.save("keyword", this.state.keyword)
-    window.location.href = "http://localhost:3000/searchResult"
+    window.location.href = "http://" + ip + ":3000/searchResult"
   }
 
   signOut = () => {

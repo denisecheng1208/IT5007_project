@@ -3,6 +3,7 @@ import './AccountInfo.css'
 import { PersonLinesFill, ListStars, FileEarmarkText, Phone, Envelope } from 'react-bootstrap-icons'
 import { Routes, Route } from "react-router-dom";
 import cookie from 'react-cookies'
+import { ip } from '../../const';
 
 export default class AccountInfo extends Component {
     state = {
@@ -43,7 +44,7 @@ export default class AccountInfo extends Component {
             jsonData.variables = {
                 username: username,
             }
-            return await fetch("http://localhost:5000/graphql", {
+            return await fetch("http://" + ip + ":5000/graphql", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -68,7 +69,7 @@ export default class AccountInfo extends Component {
             jsonData.variables = {
                 username: username,
             }
-            return await fetch("http://localhost:5000/graphql", {
+            return await fetch("http://" + ip + ":5000/graphql", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -126,7 +127,7 @@ export default class AccountInfo extends Component {
                     username: username,
                     newPassword: password,
                 }
-                return await fetch("http://localhost:5000/graphql", {
+                return await fetch("http://" + ip + ":5000/graphql", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -151,7 +152,7 @@ export default class AccountInfo extends Component {
                 if (result.ok) {
                     alert("Success!")
                     cookie.remove("username")
-                    window.location.href = "http://localhost:3000/"
+                    window.location.href = "http://" + ip + ":3000"
                 } else {
                     alert("Error!")
                 }
@@ -176,7 +177,7 @@ export default class AccountInfo extends Component {
                     username: user.username,
                     newPhone: user.phone,
                 }
-                return await fetch("http://localhost:5000/graphql", {
+                return await fetch("http://" + ip + ":5000/graphql", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -231,7 +232,7 @@ export default class AccountInfo extends Component {
                     username: user.username,
                     newEmail: user.email,
                 }
-                return await fetch("http://localhost:5000/graphql", {
+                return await fetch("http://" + ip + ":5000/graphql", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

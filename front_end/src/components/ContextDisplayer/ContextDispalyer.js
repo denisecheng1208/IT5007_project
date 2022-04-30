@@ -4,6 +4,7 @@ import { ChatLeftText, PlusSquare, BookmarkCheck } from 'react-bootstrap-icons'
 import './ContextDisplayer.css'
 import Textarea from '@uiw/react-md-editor/lib/components/TextArea/Textarea'
 import cookie from 'react-cookies'
+import { ip } from '../../const';
 
 export default class ContextDispalyer extends Component {
     state = {
@@ -26,7 +27,7 @@ export default class ContextDispalyer extends Component {
     }
 
     onEdit = () => {
-        window.location.href = 'http://localhost:3000/edit'
+        window.location.href = "http://" + ip + ":3000/edit"
     }
 
     onContextClick = (idx, segId) => {
@@ -54,7 +55,7 @@ export default class ContextDispalyer extends Component {
                 segmentId: segmentId,
                 context: context,
             };
-            return await fetch("http://localhost:5000/graphql", {
+            return await fetch("http://" + ip + ":5000/graphql", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

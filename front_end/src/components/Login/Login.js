@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './Login.css'
 import cookie from 'react-cookies'
+import { ip } from '../../const';
 
 export default class Login extends Component {
     submitLogin(e) {
@@ -15,7 +16,7 @@ export default class Login extends Component {
                 name: user.username,
                 pw: user.password
             };
-            return await fetch("http://localhost:5000/graphql", {
+            return await fetch("http://" + ip + ":5000/graphql", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

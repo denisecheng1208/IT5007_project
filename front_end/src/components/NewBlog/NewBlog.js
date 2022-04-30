@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import MDEditor, { commands, ICommand } from '@uiw/react-md-editor';
 import './NewBlog.css'
 import cookie from 'react-cookies'
+import { ip } from '../../const';
 
 export default class NewBlog extends Component {
   state = {
@@ -43,7 +44,7 @@ export default class NewBlog extends Component {
         title: title,
         type: type,
       };
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +67,7 @@ export default class NewBlog extends Component {
         context: context,
         sequence: sequence,
       };
-      return await fetch("http://localhost:5000/graphql", {
+      return await fetch("http://" + ip + ":5000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -94,7 +95,7 @@ export default class NewBlog extends Component {
         addSegment(cookie.load("username"), blogId, this.state.segments[i], i)
       }
       alert("Success!")
-      window.location.href = "http://localhost:3000/"
+      window.location.href = "http://" + ip + ":3000/"
     })
 
   }
