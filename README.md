@@ -1,12 +1,9 @@
 # IT5007_project
 
-### Docker Set Up
-
-```
-docker run -it -p 3000:3000 --name="front_test" ubuntu:latest
-```
 
 ### Project Set Up
+
+port 3000 should be open for front end, port 5000 for back end.
 
 ```
 apt install curl
@@ -16,10 +13,18 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 nvm install 16
 nvm alias default 16
 npm install -g npm@8
-npm install
 ```
 
-### Express
+### Front End
 ```
+cd front_end
+npm install
 npm start
+```
+
+### Back End
+```
+cd back_end
+npm install
+node server.js
 ```
